@@ -19,9 +19,7 @@ jobs:
       - name: MSBuild (LibISDB)
         working-directory: .\src\LibISDB\Projects
         run: msbuild LibISDB.sln
-        shell: cmd
 
       - name: MSBuild (TVTest_All)
         working-directory: .\src
         run: msbuild TVTest_All.sln
-        shell: cmd
