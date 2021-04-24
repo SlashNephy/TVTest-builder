@@ -17,11 +17,11 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (LibISDB)
-        working-directory: ./src/LibISDB/Projects
+        working-directory: .\src\LibISDB\Projects
         run: msbuild LibISDB.sln
         shell: cmd
 
       - name: MSBuild (TVTest_All)
-        working-directory: ./src
+        working-directory: .\src
         run: msbuild TVTest_All.sln
         shell: cmd
