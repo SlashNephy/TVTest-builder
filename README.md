@@ -1,4 +1,4 @@
-# TVTest-build
+# TVTest-builder
 
 TVTest 関連のプロジェクトを GitHub Actions でビルド (Release|x64 構成) します。以下のプロジェクトが対象です。
 
