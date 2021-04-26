@@ -26,3 +26,11 @@ jobs:
       - name: MSBuild (TVTest_All)
         working-directory: src
         run: msbuild TVTest_All.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TVTest
+          path: |
+            src/x64/Release/TVTest.exe
+            src/x64/Release/TVTest_Image.dll
