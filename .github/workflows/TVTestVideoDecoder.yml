@@ -23,7 +23,7 @@ jobs:
 
       - name: MSBuild (TVTestVideoDecoder.sln)
         working-directory: src
-        run: msbuild TVTestVideoDecoder.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild TVTestVideoDecoder.sln -property:Configuration="Release" -property:Platform="x64" -m /p:PlatformToolset=v142
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
