@@ -2,6 +2,10 @@
 name: TVCaptionMod2
 
 on:
+  push:
+    paths:
+      - .github/workflows/TVCaptionMod2.yml
+
   workflow_dispatch:
 
 jobs:

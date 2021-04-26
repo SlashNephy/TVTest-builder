@@ -1,0 +1,33 @@
+name: TVTComment
+
+on:
+  push:
+    paths:
+      - .github/workflows/TVTComment.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-TVTComment:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: noriokun4649/TVTComment
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (TVTComment.sln)
+        run: msbuild TVTComment.sln -property:Configuration="Release" -property:Platform="x64" -m --restore
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TVTest.zip
+          path: |
+            NicoJK/x64/Release/NicoJK
+            TVTComment/x64/Release/TVTest_Image.dll

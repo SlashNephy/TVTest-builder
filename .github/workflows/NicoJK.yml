@@ -1,0 +1,31 @@
+name: NicoJK
+
+on:
+  push:
+    paths:
+      - .github/workflows/NicoJK.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-NicoJK:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: xtne6f/NicoJK
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (NicoJK.sln)
+        run: msbuild NicoJK.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: NicoJK.tvtp
+          path: x64/Release/NicoJK.tvtp

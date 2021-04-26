@@ -1,0 +1,43 @@
+name: TvtPlay
+
+on:
+  push:
+    paths:
+      - .github/workflows/TvtPlay.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-TvtPlay:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: xtne6f/TvtPlay
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (TvtPlay.sln)
+        working-directory: src
+        run: msbuild TvtPlay.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: MSBuild (BonDriver_Pipe.sln)
+        working-directory: BonDriver_Pipe_src
+        run: msbuild BonDriver_Pipe.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      # - name: MSBuild (TvtAudioStretchFilter.sln)
+      #   working-directory: TvtAudioStretchFilter_src
+      #   run: msbuild TvtAudioStretchFilter.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TvtPlay.zip
+          path:
+            x64/Release/NicoJK.tvtp
+            BonDriver_Pipe_src\x64\Release\BonDriver_Pipe.dll
+            # TvtAudioStretchFilter_src\x64\Release\TvtAudioStretchFilter.ax

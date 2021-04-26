@@ -1,0 +1,32 @@
+name: TVTestVideoDecoder
+
+on:
+  push:
+    paths:
+      - .github/workflows/TVTestVideoDecoder.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-TVTestVideoDecoder:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: DBCTRADO/TVTestVideoDecoder
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (TVTestVideoDecoder.sln)
+        working-directory: src
+        run: msbuild TVTestVideoDecoder.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TVTestVideoDecoder.ax
+          path: src/x64/Release/TVTestVideoDecoder.ax

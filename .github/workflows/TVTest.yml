@@ -1,12 +1,14 @@
-name: latest
+name: TVTest
 
 on:
   push:
+    paths:
+      - .github/workflows/TVTest.yml
 
   workflow_dispatch:
 
 jobs:
-  build:
+  build-TVTest:
     runs-on: windows-latest
 
     steps:
@@ -19,18 +21,18 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: MSBuild (LibISDB)
+      - name: MSBuild (LibISDB.sln)
         working-directory: src\LibISDB\Projects
         run: msbuild LibISDB.sln -property:Configuration="Release" -property:Platform="x64" -m
 
-      - name: MSBuild (TVTest_All)
+      - name: MSBuild (TVTest_All.sln)
         working-directory: src
         run: msbuild TVTest_All.sln -property:Configuration="Release" -property:Platform="x64" -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TVTest
+          name: TVTest.zip
           path: |
             src/x64/Release/TVTest.exe
             src/x64/Release/TVTest_Image.dll
