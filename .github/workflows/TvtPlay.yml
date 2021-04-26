@@ -38,6 +38,6 @@ jobs:
         with:
           name: TvtPlay.zip
           path:
-            x64/Release/NicoJK.tvtp
-            BonDriver_Pipe_src\x64\Release\BonDriver_Pipe.dll
-            # TvtAudioStretchFilter_src\x64\Release\TvtAudioStretchFilter.ax
+            src/x64/Release/TvtPlay.tvtp
+            BonDriver_Pipe_src/x64/Release/BonDriver_Pipe.dll
+            # TvtAudioStretchFilter_src/x64/Release/TvtAudioStretchFilter.ax
