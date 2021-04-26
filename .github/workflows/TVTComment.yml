@@ -27,7 +27,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TVTest.zip
+          name: TvtComment.zip
           path: |
-            NicoJK/x64/Release/NicoJK
-            TVTComment/x64/Release/TVTest_Image.dll
+            NicoJK/x64/Release/TvtComment.tvtp
+            TVTComment/x64/Release
