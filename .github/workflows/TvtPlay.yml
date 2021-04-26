@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: TvtPlay.zip
-          path:
+          # TvtAudioStretchFilter_src/x64/Release/TvtAudioStretchFilter.ax
+          path: |
             src/x64/Release/TvtPlay.tvtp
             BonDriver_Pipe_src/x64/Release/BonDriver_Pipe.dll
-            # TvtAudioStretchFilter_src/x64/Release/TvtAudioStretchFilter.ax
