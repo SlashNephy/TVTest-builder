@@ -1,0 +1,33 @@
+  
+name: TVCaptionMod2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-TVCaptionMod2:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: xtne6f/TVCaptionMod2
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (Caption.sln)
+        working-directory: Caption_src
+        run: msbuild Caption.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: MSBuild (TVCaption2.sln)
+        working-directory: src
+        run: msbuild TVCaption2.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TVCaptionMod2.tvtp
+          path: src/x64/Release/TVCaptionMod2.tvtp
