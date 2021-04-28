@@ -22,7 +22,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (TVTComment.sln)
-        run: msbuild TVTComment.sln -property:Configuration="Release" -property:Platform="x64" -m --restore
+        run: msbuild TVTComment.sln -property:Configuration="Release" -property:Platform="x64" -m --restore /p:PostBuildEvent=
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
