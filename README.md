@@ -1,12 +1,14 @@
 # TVTest-builder
 
-TVTest 関連のプロジェクトを GitHub Actions でビルド (Release|x64 構成) します。以下のプロジェクトが対象です。
+TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 構成)
 
-| リポジトリ | 説明 | 成果物 | 
-|---|---|---|
-| [DBCTRADO/TVTest](https://github.com/DBCTRADO/TVTest) | TVTest 本体 | `TVTest.exe`, `TVTest_Image.dll` |
-| [DBCTRADO/TVTestVideoDecoder](https://github.com/DBCTRADO/TVTestVideoDecoder) | TVTest 付属の MPEG-TS デコーダ | `TVTestVideoDecoder.ax` |
-| [xtne6f/NicoJK](https://github.com/xtne6f/NicoJK) | 実況プラグイン | `NicoJK.tvtp` |
-| [xtne6f/TVCaptionMod2](https://github.com/xtne6f/TVCaptionMod2) | 字幕表示プラグイン | `TVCaptionMod2.tvtp` |
-| [xtne6f/TvtPlay](https://github.com/xtne6f/TvtPlay) | ファイル再生プラグイン | `TvtPlay.tvtp`, `BonDriver_Pipe.dll`, ~~`TvtAudioStretchFilter.ax`~~ |
-| [noriokun4649/TVTComment](https://github.com/noriokun4649/TVTComment) | 実況プラグイン | ~~`TvtComment.tvtp`~~ |
+以下のプロジェクトが対象です。
+
+| リポジトリ | 説明 | ワークフロー | 成果物 | 
+|---|---|---|---|
+| [DBCTRADO/TVTest](https://github.com/DBCTRADO/TVTest) | TVTest 本体 | [![TVTest](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTest.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTest.yml) | `TVTest.exe`, `TVTest_Image.dll` |
+| [DBCTRADO/TVTestVideoDecoder](https://github.com/DBCTRADO/TVTestVideoDecoder) | TVTest 付属の MPEG-TS デコーダ | [![TVTestVideoDecoder](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTestVideoDecoder.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTestVideoDecoder.yml) | `TVTestVideoDecoder.ax` |
+| [xtne6f/NicoJK](https://github.com/xtne6f/NicoJK) | 実況プラグイン | [![NicoJK](https://github.com/SlashNephy/TVTest-builder/actions/workflows/NicoJK.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/NicoJK.yml) | `NicoJK.tvtp` |
+| [xtne6f/TVCaptionMod2](https://github.com/xtne6f/TVCaptionMod2) | 字幕表示プラグイン | [![TVCaptionMod2](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVCaptionMod2.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVCaptionMod2.yml) | `TVCaptionMod2.tvtp` |
+| [xtne6f/TvtPlay](https://github.com/xtne6f/TvtPlay) | ファイル再生プラグイン | [![TvtPlay](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvtPlay.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvtPlay.yml) | `TvtPlay.tvtp`, `BonDriver_Pipe.dll`, ~~`TvtAudioStretchFilter.ax`~~ |
+| [noriokun4649/TVTComment](https://github.com/noriokun4649/TVTComment) | 実況プラグイン | [![TVTComment](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTComment.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTComment.yml) | `TvtComment.tvtp`, `TvtComment.exe` |
