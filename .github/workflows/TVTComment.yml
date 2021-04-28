@@ -30,4 +30,4 @@ jobs:
           name: TvtComment.zip
           path: |
             NicoJK/x64/Release/TvtComment.tvtp
-            TVTComment/x64/Release
+            TVTComment/bin/Release/net5.0-windows
