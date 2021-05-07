@@ -30,9 +30,16 @@ jobs:
         working-directory: src
         run: msbuild TVCaption2.sln -property:Configuration="Release" -property:Platform="x64" -m
 
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path src/x64/Release/TVCaptionMod2.tvtp -Destination Artifacts/
+          Copy-Item -Path gaiji -Filter TVCaptionMod2_Gaiji_*.txt -Destination Artifacts/ -Recurse
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: TVCaptionMod2
           if-no-files-found: error
-          path: src/x64/Release/TVCaptionMod2.tvtp
+          path: Artifacts/
