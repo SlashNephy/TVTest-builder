@@ -40,9 +40,8 @@ jobs:
           Copy-Item -Path src/x64/Release/TVTest.exe -Destination Artifacts/
           Copy-Item -Path src/x64/Release/TVTest_Image.dll -Destination Artifacts/
           Copy-Item -Path sdk/Samples/x64/Release -Destination Artifacts/Plugins -Recurse
+          Move-Item -Path data/Data_x64/ -Destination data/ -Recurse -Force
           Copy-Item -Path data/ -Destination Artifacts/ -Recurse
-          Copy-Item -Path Artifacts/Data_x64/ -Destination Artifacts/ -Force -Recurse
-          Remove-Item -Path Artifacts/Data_x64 -Force
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
