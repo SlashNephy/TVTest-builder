@@ -1,0 +1,32 @@
+name: TvTestRPC
+
+on:
+  push:
+    paths:
+      - .github/workflows/TvTestRPC.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-TvTestRPC:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: noriokun4649/TvTestRPC
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (TvTestRPC.sln)
+        run: msbuild TvTestRPC.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TvTestRPC
+          if-no-files-found: error
+          path: TvTestRPC/x64/Release/TvTestRPC.tvtp
