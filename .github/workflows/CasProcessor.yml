@@ -1,0 +1,34 @@
+  
+name: CasProcessor
+
+on:
+  push:
+    paths:
+      - .github/workflows/CasProcessor.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-CasProcessor:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: logue/CasProcessor
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (CasProcessor.sln)
+        working-directory: Caption_src
+        run: msbuild CasProcessor.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: CasProcessor
+          if-no-files-found: error
+          path: x64/Release/CasProcessor.tvtp
