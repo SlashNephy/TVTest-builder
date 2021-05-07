@@ -1,0 +1,44 @@
+name: BonDriver_EPGStation
+
+on:
+  push:
+    paths:
+      - .github/workflows/BonDriver_EPGStation.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-BonDriver_EPGStation:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: xqq/BonDriver_EPGStation
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Generate CMake
+        run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -A x64 ..
+
+      - name: CMake
+        run: cmake --build . --config MinSizeRel -j4
+
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path `
+            BonDriver_EPGStation.dll `
+            BonDriver_EPGStation.yml `
+            -Destination Artifacts/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: BonDriver_EPGStation
+          if-no-files-found: error
+          path: Artifacts/

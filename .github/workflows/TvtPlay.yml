@@ -37,8 +37,10 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path src/x64/Release/TvtPlay.tvtp -Destination Artifacts/
-          Copy-Item -Path BonDriver_Pipe_src/x64/Release/BonDriver_Pipe.dll -Destination Artifacts/
+          Copy-Item -Path `
+            src/x64/Release/TvtPlay.tvtp `
+            BonDriver_Pipe_src/x64/Release/BonDriver_Pipe.dll `
+            -Destination Artifacts/
         # Copy-Item -Path TvtAudioStretchFilter_src/x64/Release/TvtAudioStretchFilter.ax -Destination Artifacts/
 
       - name: Upload Artifacts
