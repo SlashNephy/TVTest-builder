@@ -1,0 +1,33 @@
+name: TTRec
+
+on:
+  push:
+    paths:
+      - .github/workflows/TTRec.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-TTRec:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository (TTRec)
+        uses: actions/checkout@v2
+        with:
+          repository: xtne6f/TTRec
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (TTRec.VS2015.sln)
+        working-directory: src
+        run: msbuild TTRec.VS2015.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TTRec
+          if-no-files-found: error
+          path: src/x64/Release/TTRec.tvtp
