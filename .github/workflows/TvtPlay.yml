@@ -33,11 +33,17 @@ jobs:
       #   working-directory: TvtAudioStretchFilter_src
       #   run: msbuild TvtAudioStretchFilter.sln -property:Configuration="Release" -property:Platform="x64" -m
 
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path src/x64/Release/TvtPlay.tvtp -Destination Artifacts/
+          Copy-Item -Path BonDriver_Pipe_src/x64/Release/BonDriver_Pipe.dll -Destination Artifacts/
+        # Copy-Item -Path TvtAudioStretchFilter_src/x64/Release/TvtAudioStretchFilter.ax -Destination Artifacts/
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TvtPlay.zip
-          # TvtAudioStretchFilter_src/x64/Release/TvtAudioStretchFilter.ax
-          path: |
-            src/x64/Release/TvtPlay.tvtp
-            BonDriver_Pipe_src/x64/Release/BonDriver_Pipe.dll
+          name: TvtPlay
+          if-no-files-found: error
+          path: Artifacts/

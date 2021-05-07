@@ -29,10 +29,21 @@ jobs:
         working-directory: src
         run: msbuild TVTest_All.sln -property:Configuration="Release" -property:Platform="x64" -m
 
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path `
+            src/x64/Release/TVTest.exe `
+            src/x64/Release/TVTest_Image.dll `
+            data/ `
+            -Destination Artifacts/
+          Move-Item -Path Artifacts/Data_x64/ -Destination Artifacts/ -Force
+          Remove-Item -Path Artifacts/Data_x64
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TVTest.zip
-          path: |
-            src/x64/Release/TVTest.exe
-            src/x64/Release/TVTest_Image.dll
+          name: TVTest
+          if-no-files-found: error
+          path: Artifacts/
