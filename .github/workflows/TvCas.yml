@@ -34,5 +34,5 @@ jobs:
           name: TvCas
           if-no-files-found: error
           path: |
-            TVCAS_25/x64/Release/B25.tvtp
-            TVCAS_25/x64/ReleaseSPHD/SPHD.tvtp
+            x64/Release/B25.tvcas
+            x64/ReleaseSPHD/SPHD.tvcas
