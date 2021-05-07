@@ -33,11 +33,9 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path `
-            src/x64/Release/TVTest.exe `
-            src/x64/Release/TVTest_Image.dll `
-            data/ `
-            -Destination Artifacts/
+          Copy-Item -Path src/x64/Release/TVTest.exe -Destination Artifacts/
+          Copy-Item -Path src/x64/Release/TVTest_Image.dll -Destination Artifacts/
+          Copy-Item -Path data/ -Destination Artifacts/
           Move-Item -Path Artifacts/Data_x64/ -Destination Artifacts/ -Force
           Remove-Item -Path Artifacts/Data_x64
 

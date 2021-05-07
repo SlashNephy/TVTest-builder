@@ -31,10 +31,8 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path `
-            BonDriver_EPGStation.dll `
-            BonDriver_EPGStation.yml `
-            -Destination Artifacts/
+          Copy-Item -Path MinSizeRel/BonDriver_EPGStation.dll -Destination Artifacts/
+          Copy-Item -Path BonDriver_EPGStation.yml -Destination Artifacts/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
