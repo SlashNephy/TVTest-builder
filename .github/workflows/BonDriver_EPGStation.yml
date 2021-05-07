@@ -22,7 +22,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: Generate CMake
-        run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -A x64 ..
+        run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -A x64 .
 
       - name: CMake
         run: cmake --build . --config MinSizeRel -j4
