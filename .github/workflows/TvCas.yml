@@ -1,0 +1,38 @@
+  
+name: TvCas
+
+on:
+  push:
+    paths:
+      - .github/workflows/TvCas.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-TvCas:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: logue/TvCas
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (TvCas.sln, B25.tvcas)
+        run: msbuild TvCas.sln -property:Configuration="Release" -property:Platform="x64" -m
+
+      - name: MSBuild (TvCas.sln, SPHD.tvcas)
+        run: msbuild TvCas.sln -property:Configuration="ReleaseSPHD" -property:Platform="x64" -m
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TvCas
+          if-no-files-found: error
+          path: |
+            TVCAS_25/x64/Release/B25.tvtp
+            TVCAS_25/x64/ReleaseSPHD/SPHD.tvtp
