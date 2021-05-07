@@ -23,7 +23,6 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (CasProcessor.sln)
-        working-directory: Caption_src
         run: msbuild CasProcessor.sln -property:Configuration="Release" -property:Platform="x64" -m
 
       - name: Upload Artifacts
