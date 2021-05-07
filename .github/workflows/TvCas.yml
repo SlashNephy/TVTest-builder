@@ -28,11 +28,16 @@ jobs:
       - name: MSBuild (TvCas.sln, SPHD.tvcas)
         run: msbuild TvCas.sln -property:Configuration="ReleaseSPHD" -property:Platform="x64" -m
 
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path x64/Release/B25.tvcas -Destination Artifacts/
+          Copy-Item -Path x64/ReleaseSPHD/SPHD.tvcas -Destination Artifacts/
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: TvCas
           if-no-files-found: error
-          path: |
-            x64/Release/B25.tvcas
-            x64/ReleaseSPHD/SPHD.tvcas
+          path: Artifacts/
