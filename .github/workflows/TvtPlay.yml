@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repository (TvtPlay)
         uses: actions/checkout@v2
         with:
           repository: xtne6f/TvtPlay
@@ -29,9 +29,12 @@ jobs:
         working-directory: BonDriver_Pipe_src
         run: msbuild BonDriver_Pipe.sln -property:Configuration="Release" -property:Platform="x64" -m
 
-      # - name: MSBuild (TvtAudioStretchFilter.sln)
-      #   working-directory: TvtAudioStretchFilter_src
-      #   run: msbuild TvtAudioStretchFilter.sln -property:Configuration="Release" -property:Platform="x64" -m
+      - name: Checkout Repository (SoundTouch)
+        run: git clone https://gitlab.com/soundtouch/soundtouch -b soundtouch-1.9.2 soundtouch
+
+      - name: MSBuild (TvtAudioStretchFilter.sln)
+        working-directory: TvtAudioStretchFilter_src
+        run: msbuild TvtAudioStretchFilter.sln -property:Configuration="Release" -property:Platform="x64" -m
 
       - name: Prepare Artifacts
         shell: powershell
