@@ -29,7 +29,7 @@ jobs:
         run: |
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path NicoJK/x64/Release/TvtComment.tvtp -Destination Artifacts/
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/ -Destination Artifacts/TvtComment/
+          Copy-Item -Path TVTComment/bin/Release/net5.0-windows -Destination Artifacts/TvtComment
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
