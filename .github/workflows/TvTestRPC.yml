@@ -30,4 +30,4 @@ jobs:
         with:
           name: TvTestRPC
           if-no-files-found: error
-          path: TvTestRPC/x64/Release/TvTestRPC.tvtp
+          path: x64/Release/TvTestRPC.tvtp
