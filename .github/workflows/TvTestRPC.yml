@@ -15,7 +15,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          repository: noriokun4649/TvTestRPC
+          repository: SlashNephy/TvTestRPC
+          ref: dev
           submodules: recursive
 
       - name: Setup MSBuild
