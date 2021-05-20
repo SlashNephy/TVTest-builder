@@ -2,6 +2,8 @@
 
 TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 構成)
 
+ビルドの成果物はワークフローのページからダウンロードできます。
+
 以下のプロジェクトが対象です。
 
 | リポジトリ | 説明 | ワークフロー | 成果物 | 
@@ -16,3 +18,4 @@ TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Re
 | [SlashNephy/TvTestRPC](https://github.com/SlashNephy/TvTestRPC) | Discord RPC プラグイン | [![TvTestRPC](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvTestRPC.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvTestRPC.yml) | `TvTestRPC.tvtp` |
 | [logue/CasProcessor](https://github.com/logue/CasProcessor) | CAS 処理 プラグイン<br>BonDriver_EPGStation を使用する際は不要 | [![CasProcessor](https://github.com/SlashNephy/TVTest-builder/actions/workflows/CasProcessor.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/CasProcessor.yml) | `CasProcessor.tvtp` |
 | [logue/TvCas](https://github.com/logue/TvCas) | CasProcessor プラグイン<br>BonDriver_EPGStation を使用する際は不要 | [![TvCas](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvCas.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvCas.yml) | `B25.tvcas`, `SPHD.tvcas` |
+| [xtne6f/TTRec](https://github.com/xtne6f/TTRec) | 予約拡張プラグイン | [![TTRec](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TTRec.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TTRec.yml) | `TTRec.tvtp` |
