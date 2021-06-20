@@ -18,6 +18,11 @@ jobs:
           repository: noriokun4649/TVTComment
           submodules: recursive
 
+      - name: Checkout Repository (TVTest-builder)
+        uses: actions/checkout@v2
+        with:
+          path: TVTest-builder
+
       - name: Checkout Repository (TVTComment-txt)
         uses: actions/checkout@v2
         with:
@@ -31,7 +36,7 @@ jobs:
         run: msbuild TVTComment.sln -property:Configuration="Release" -property:Platform="x64" -m --restore /p:PostBuildEvent= /p:PostBuildEventUseInBuild=false
 
       - name: MSBuild (Publish)
-        run: msbuild /t:publish /p:PublishProfile=PublishProfiles\TVTComment.pubxml
+        run: msbuild /t:publish /p:PublishProfile=TVTest-builder\PublishProfiles\TVTComment.pubxml -m
 
       - name: Prepare Artifacts
         shell: powershell
