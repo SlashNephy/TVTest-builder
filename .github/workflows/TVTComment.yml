@@ -41,11 +41,11 @@ jobs:
       - name: Prepare Artifacts
         shell: powershell
         # Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/TvtComment.exe -Destination Artifacts/TvtComment -Recurse
+        # Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/TvtComment -Recurse
         run: |
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path NicoJK/x64/Release/TvtComment.tvtp -Destination Artifacts/
           Copy-Item -Path TVTComment/bin/Release/net5.0-windows -Destination Artifacts/TvtComment -Recurse
-          Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/TvtComment -Recurse
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
