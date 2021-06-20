@@ -18,16 +18,16 @@ jobs:
           repository: noriokun4649/TVTComment
           submodules: recursive
 
-      - name: Checkout Repository (TVTest-builder)
-        uses: actions/checkout@v2
-        with:
-          path: TVTest-builder
+      # - name: Checkout Repository (TVTest-builder)
+      #   uses: actions/checkout@v2
+      #   with:
+      #     path: TVTest-builder
 
-      - name: Checkout Repository (TVTComment-txt)
-        uses: actions/checkout@v2
-        with:
-          repository: SlashNephy/TVTComment-txt
-          path: TVTComment-txt
+      # - name: Checkout Repository (TVTComment-txt)
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: SlashNephy/TVTComment-txt
+      #     path: TVTComment-txt
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
@@ -35,15 +35,16 @@ jobs:
       - name: MSBuild (TVTComment.sln)
         run: msbuild TVTComment.sln -property:Configuration="Release" -property:Platform="x64" -m --restore /p:PostBuildEvent= /p:PostBuildEventUseInBuild=false
 
-      - name: MSBuild (Publish)
-        run: msbuild /t:publish /p:PublishProfile="TVTest-builder\PublishProfiles\TVTComment.pubxml" -m
+      # - name: MSBuild (Publish)
+      #   run: msbuild /t:publish /p:PublishProfile="TVTest-builder\PublishProfiles\TVTComment.pubxml" -m
 
       - name: Prepare Artifacts
         shell: powershell
+        # Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/TvtComment.exe -Destination Artifacts/TvtComment -Recurse
         run: |
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path NicoJK/x64/Release/TvtComment.tvtp -Destination Artifacts/
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/TvtComment.exe -Destination Artifacts/TvtComment -Recurse
+          Copy-Item -Path TVTComment/bin/Release/net5.0-windows -Destination Artifacts/TvtComment -Recurse
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/TvtComment -Recurse
 
       - name: Upload Artifacts
