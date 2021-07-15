@@ -35,13 +35,13 @@ jobs:
 
       - name: MSBuild (TVCaption2.sln)
         working-directory: src
-        run: msbuild TVCaption2.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild TVCaption2.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
 
       - name: Prepare Artifacts
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path src/${{ matrix.platform }}/Release/TVCaptionMod2.tvtp -Destination Artifacts/
+          Copy-Item -Path src/${{ matrix.platform }}/TVCaptionMod2.tvtp -Destination Artifacts/
           Copy-Item -Path gaiji -Filter TVCaptionMod2_Gaiji_*.txt -Destination Artifacts/ -Recurse
 
       - name: Upload Artifacts

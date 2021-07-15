@@ -30,26 +30,26 @@ jobs:
 
       - name: MSBuild (TvtPlay.sln)
         working-directory: src
-        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
 
       - name: MSBuild (BonDriver_Pipe.sln)
         working-directory: BonDriver_Pipe_src
-        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
 
       # - name: Checkout Repository (SoundTouch)
       #   run: git clone https://gitlab.com/soundtouch/soundtouch.git -b soundtouch-1.9.2 soundtouch
 
       # - name: MSBuild (TvtAudioStretchFilter.sln)
       #   working-directory: TvtAudioStretchFilter_src
-      #   run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+      #   run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
 
       - name: Prepare Artifacts
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path src/${{ matrix.platform }}/Release/TvtPlay.tvtp -Destination Artifacts/
-          Copy-Item -Path BonDriver_Pipe_src/${{ matrix.platform }}/Release/BonDriver_Pipe.dll -Destination Artifacts/
-        # Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/Release/TvtAudioStretchFilter.ax -Destination Artifacts/
+          Copy-Item -Path src/${{ matrix.platform }}/TvtPlay.tvtp -Destination Artifacts/
+          Copy-Item -Path BonDriver_Pipe_src/${{ matrix.platform }}/BonDriver_Pipe.dll -Destination Artifacts/
+        # Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifacts/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
