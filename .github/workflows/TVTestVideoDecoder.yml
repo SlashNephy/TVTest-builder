@@ -32,9 +32,28 @@ jobs:
         working-directory: src
         run: msbuild TVTestVideoDecoder.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v142
 
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path src/${{ matrix.platform }}/Release/TVTestVideoDecoder.ax -Destination Artifacts/
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: TVTestVideoDecoder_${{ matrix.platform }}
           if-no-files-found: error
-          path: src/${{ matrix.platform }}/Release/TVTestVideoDecoder.ax
+          path: Artifacts/
+
+      - name: Create Release
+        shell: powershell
+        if: startsWith(github.ref, 'refs/tags/')
+        run: Compress-Archive -Path Artifacts/* -DestinationPath TVTestVideoDecoder_${{ matrix.platform }}.zip
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: TVTestVideoDecoder_${{ matrix.platform }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

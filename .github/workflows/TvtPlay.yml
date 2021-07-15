@@ -57,3 +57,16 @@ jobs:
           name: TvtPlay_${{ matrix.platform }}
           if-no-files-found: error
           path: Artifacts/
+
+      - name: Create Release
+        shell: powershell
+        if: startsWith(github.ref, 'refs/tags/')
+        run: Compress-Archive -Path Artifacts/* -DestinationPath TvtPlay_${{ matrix.platform }}.zip
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: TvtPlay_${{ matrix.platform }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

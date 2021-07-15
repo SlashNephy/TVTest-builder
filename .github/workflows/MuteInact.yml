@@ -32,9 +32,28 @@ jobs:
       - name: MSBuild (MuteInact.sln)
         run: msbuild MuteInact.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path ${{ matrix.platform }}/MuteInact.tvtp -Destination Artifacts/
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: MuteInact_${{ matrix.platform }}
           if-no-files-found: error
-          path: ${{ matrix.platform }}/MuteInact.tvtp
+          path: Artifacts/
+
+      - name: Create Release
+        shell: powershell
+        if: startsWith(github.ref, 'refs/tags/')
+        run: Compress-Archive -Path Artifacts/* -DestinationPath MuteInact_${{ matrix.platform }}.zip
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: MuteInact_${{ matrix.platform }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

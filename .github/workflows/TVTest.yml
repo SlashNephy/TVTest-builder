@@ -62,3 +62,16 @@ jobs:
           name: TVTest_${{ matrix.platform }}
           if-no-files-found: error
           path: Artifacts/
+
+      - name: Create Release
+        shell: powershell
+        if: startsWith(github.ref, 'refs/tags/')
+        run: Compress-Archive -Path Artifacts/* -DestinationPath TVTest_${{ matrix.platform }}.zip
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: TVTest_${{ matrix.platform }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
