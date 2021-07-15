@@ -1,33 +1,33 @@
-name: TvTestRPC
+  
+name: MuteInact
 
 on:
   push:
     paths:
-      - .github/workflows/TvTestRPC.yml
+      - .github/workflows/MuteInact.yml
 
   workflow_dispatch:
 
 jobs:
-  build-TvTestRPC:
+  build-MuteInact:
     runs-on: windows-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          repository: SlashNephy/TvTestRPC
-          ref: dev
+          repository: SlashNephy/MuteInact
           submodules: recursive
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: MSBuild (TvTestRPC.sln)
-        run: msbuild TvTestRPC.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
+      - name: MSBuild (MuteInact.sln)
+        run: msbuild MuteInact.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TvTestRPC
+          name: CasProcessor
           if-no-files-found: error
-          path: x64/Release/TvTestRPC.tvtp
+          path: x64/Release/MuteInact.tvtp
