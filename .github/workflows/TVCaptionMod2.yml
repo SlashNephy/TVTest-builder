@@ -35,7 +35,7 @@ jobs:
 
       - name: MSBuild (TVCaption2.sln)
         working-directory: src
-        run: msbuild TVCaption2.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
+        run: msbuild TVCaption2.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
       - name: Prepare Artifacts
         shell: powershell

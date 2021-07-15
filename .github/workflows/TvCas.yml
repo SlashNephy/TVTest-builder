@@ -30,17 +30,17 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (TvCas.sln, B25.tvcas)
-        run: msbuild TvCas.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild TvCas.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
       - name: MSBuild (TvCas.sln, SPHD.tvcas)
-        run: msbuild TvCas.sln /p:Configuration="ReleaseSPHD" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild TvCas.sln /p:Configuration="ReleaseSPHD" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}_SPHD" -m
 
       - name: Prepare Artifacts
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path ${{ matrix.platform }}/Release/B25.tvcas -Destination Artifacts/
-          Copy-Item -Path ${{ matrix.platform }}/ReleaseSPHD/SPHD.tvcas -Destination Artifacts/
+          Copy-Item -Path ${{ matrix.platform }}/B25.tvcas -Destination Artifacts/
+          Copy-Item -Path ${{ matrix.platform }}_SPHD/SPHD.tvcas -Destination Artifacts/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2

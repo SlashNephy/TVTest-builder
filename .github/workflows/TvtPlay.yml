@@ -30,18 +30,18 @@ jobs:
 
       - name: MSBuild (TvtPlay.sln)
         working-directory: src
-        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
+        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
       - name: MSBuild (BonDriver_Pipe.sln)
         working-directory: BonDriver_Pipe_src
-        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
+        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
       # - name: Checkout Repository (SoundTouch)
       #   run: git clone https://gitlab.com/soundtouch/soundtouch.git -b soundtouch-1.9.2 soundtouch
 
       # - name: MSBuild (TvtAudioStretchFilter.sln)
       #   working-directory: TvtAudioStretchFilter_src
-      #   run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutputPath="${{ matrix.platform }}" -m
+      #   run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
       - name: Prepare Artifacts
         shell: powershell
