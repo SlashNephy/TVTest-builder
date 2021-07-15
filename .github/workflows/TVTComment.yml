@@ -16,7 +16,7 @@ jobs:
       matrix:
         platform:
           - x64
-          - x86
+          # - x86
 
     steps:
       - name: Checkout Repository (TVTComment)

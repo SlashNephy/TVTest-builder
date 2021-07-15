@@ -16,7 +16,7 @@ jobs:
       matrix:
         platform:
           - x64
-          - Win32
+          # - Win32
 
     steps:
       - name: Checkout Repository
