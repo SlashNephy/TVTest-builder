@@ -24,11 +24,11 @@ jobs:
 
       - name: MSBuild (Caption.sln)
         working-directory: Caption_src
-        run: msbuild Caption.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild Caption.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: MSBuild (TVCaption2.sln)
         working-directory: src
-        run: msbuild TVCaption2.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild TVCaption2.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: Prepare Artifacts
         shell: powershell

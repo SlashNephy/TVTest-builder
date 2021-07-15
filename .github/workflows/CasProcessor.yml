@@ -23,7 +23,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (CasProcessor.sln)
-        run: msbuild CasProcessor.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild CasProcessor.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2

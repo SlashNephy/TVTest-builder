@@ -23,10 +23,10 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (TvCas.sln, B25.tvcas)
-        run: msbuild TvCas.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild TvCas.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: MSBuild (TvCas.sln, SPHD.tvcas)
-        run: msbuild TvCas.sln -property:Configuration="ReleaseSPHD" -property:Platform="x64" -m
+        run: msbuild TvCas.sln /p:Configuration="ReleaseSPHD" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: Prepare Artifacts
         shell: powershell

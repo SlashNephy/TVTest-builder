@@ -23,7 +23,7 @@ jobs:
 
       - name: MSBuild (TTRec.VS2015.sln)
         working-directory: src
-        run: msbuild TTRec.VS2015.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild TTRec.VS2015.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2

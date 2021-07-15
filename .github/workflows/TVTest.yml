@@ -23,15 +23,15 @@ jobs:
 
       - name: MSBuild (LibISDB.sln)
         working-directory: src\LibISDB\Projects
-        run: msbuild LibISDB.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild LibISDB.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: MSBuild (TVTest_All.sln)
         working-directory: src
-        run: msbuild TVTest_All.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild TVTest_All.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: MSBuild (Samples.sln)
         working-directory: sdk/Samples
-        run: msbuild Samples.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild Samples.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: Prepare Artifacts
         shell: powershell

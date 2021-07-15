@@ -22,7 +22,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (NicoJK.sln)
-        run: msbuild NicoJK.sln -property:Configuration="Release" -property:Platform="x64" -m
+        run: msbuild NicoJK.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
