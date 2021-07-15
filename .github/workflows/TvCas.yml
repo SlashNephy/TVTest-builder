@@ -40,7 +40,7 @@ jobs:
         run: |
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path ${{ matrix.platform }}/Release/B25.tvcas -Destination Artifacts/
-          Copy-Item -Path ${{ matrix.platform }}/Release/SPHD.tvcas -Destination Artifacts/
+          Copy-Item -Path ${{ matrix.platform }}/ReleaseSPHD/SPHD.tvcas -Destination Artifacts/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
