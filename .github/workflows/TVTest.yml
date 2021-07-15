@@ -11,6 +11,13 @@ jobs:
   build-TVTest:
     runs-on: windows-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - x64
+          - Win32
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -23,29 +30,35 @@ jobs:
 
       - name: MSBuild (LibISDB.sln)
         working-directory: src\LibISDB\Projects
-        run: msbuild LibISDB.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
+        run: msbuild LibISDB.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
 
       - name: MSBuild (TVTest_All.sln)
         working-directory: src
-        run: msbuild TVTest_All.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
+        run: msbuild TVTest_All.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
 
       - name: MSBuild (Samples.sln)
         working-directory: sdk/Samples
-        run: msbuild Samples.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
+        run: msbuild Samples.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
 
       - name: Prepare Artifacts
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path src/x64/Release/TVTest.exe -Destination Artifacts/
-          Copy-Item -Path src/x64/Release/TVTest_Image.dll -Destination Artifacts/
-          Copy-Item -Path sdk/Samples/x64/Release -Filter *.tvtp -Destination Artifacts/Plugins/ -Recurse
-          Get-ChildItem -Path data/Data_x64 | Move-Item -Destination data/ -Force
-          Copy-Item -Path data/* -Destination Artifacts/ -Recurse
+          Copy-Item -Path src/${{ matrix.platform }}/Release/TVTest.exe -Destination Artifacts/
+          Copy-Item -Path src/${{ matrix.platform }}/Release/TVTest_Image.dll -Destination Artifacts/
+          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release -Filter *.tvtp -Destination Artifacts/Plugins/ -Recurse
+
+      - name: Prepare Assets (x64)
+        if: matrix.platform == 'x64'
+        shell: powershell
+        run: Get-ChildItem -Path data/Data_x64 | Move-Item -Destination data/ -Force
+      - name: Prepare Assets
+        shell: powershell
+        run: Copy-Item -Path data/* -Destination Artifacts/ -Recurse
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TVTest
+          name: TVTest_${{ matrix.platform }}
           if-no-files-found: error
           path: Artifacts/

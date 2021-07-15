@@ -12,6 +12,13 @@ jobs:
   build-CasProcessor:
     runs-on: windows-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - x64
+          - Win32
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -23,11 +30,11 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (CasProcessor.sln)
-        run: msbuild CasProcessor.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
+        run: msbuild CasProcessor.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: CasProcessor
+          name: CasProcessor_${{ matrix.platform }}
           if-no-files-found: error
-          path: x64/Release/CasProcessor.tvtp
+          path: ${{ matrix.platform }}/Release/CasProcessor.tvtp

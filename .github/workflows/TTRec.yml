@@ -11,6 +11,13 @@ jobs:
   build-TTRec:
     runs-on: windows-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - x64
+          - Win32
+
     steps:
       - name: Checkout Repository (TTRec)
         uses: actions/checkout@v2
@@ -23,11 +30,11 @@ jobs:
 
       - name: MSBuild (TTRec.VS2015.sln)
         working-directory: src
-        run: msbuild TTRec.VS2015.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m
+        run: msbuild TTRec.VS2015.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TTRec
+          name: TTRec_${{ matrix.platform }}
           if-no-files-found: error
-          path: src/x64/Release/TTRec.tvtp
+          path: src/${{ matrix.platform }}/Release/TTRec.tvtp

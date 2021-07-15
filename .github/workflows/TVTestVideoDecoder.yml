@@ -11,6 +11,13 @@ jobs:
   build-TVTestVideoDecoder:
     runs-on: windows-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - x64
+          - Win32
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -23,11 +30,11 @@ jobs:
 
       - name: MSBuild (TVTestVideoDecoder.sln)
         working-directory: src
-        run: msbuild TVTestVideoDecoder.sln /p:Configuration="Release" /p:Platform="x64" /p:CodePage=932 -m /p:PlatformToolset=v142
+        run: msbuild TVTestVideoDecoder.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v142
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TVTestVideoDecoder
+          name: TVTestVideoDecoder_${{ matrix.platform }}
           if-no-files-found: error
-          path: src/x64/Release/TVTestVideoDecoder.ax
+          path: src/${{ matrix.platform }}/Release/TVTestVideoDecoder.ax

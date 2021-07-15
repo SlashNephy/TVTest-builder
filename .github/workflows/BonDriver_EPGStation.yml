@@ -11,6 +11,13 @@ jobs:
   build-BonDriver_EPGStation:
     runs-on: windows-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - x64
+          - Win32
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -22,7 +29,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: Generate CMake
-        run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -A x64 .
+        run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -A ${{ matrix.platform }} .
 
       - name: CMake
         run: cmake --build . --config MinSizeRel -j4
@@ -37,6 +44,6 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: BonDriver_EPGStation
+          name: BonDriver_EPGStation_${{ matrix.platform }}
           if-no-files-found: error
           path: Artifacts/
