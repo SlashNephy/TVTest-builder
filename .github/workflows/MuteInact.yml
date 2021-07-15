@@ -28,6 +28,6 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: CasProcessor
+          name: MuteInact
           if-no-files-found: error
           path: x64/Release/MuteInact.tvtp
