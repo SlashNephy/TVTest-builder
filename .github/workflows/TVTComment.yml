@@ -33,7 +33,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (TVTComment.sln)
-        run: msbuild TVTComment.sln -property:Configuration="Release" -property:Platform="x64" -m --restore -codepage="cp932" /p:PostBuildEvent= /p:PostBuildEventUseInBuild=false
+        run: msbuild TVTComment.sln -property:Configuration="Release" -property:Platform="x64" -m --restore /codepage="cp932" /p:PostBuildEvent= /p:PostBuildEventUseInBuild=false
 
       # - name: MSBuild (Publish)
       #   run: msbuild /t:publish /p:PublishProfile="TVTest-builder\PublishProfiles\TVTComment.pubxml" -m
