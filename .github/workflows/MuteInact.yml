@@ -30,11 +30,11 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (MuteInact.sln)
-        run: msbuild MuteInact.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild MuteInact.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: MuteInact_${{ matrix.platform }}
           if-no-files-found: error
-          path: ${{ matrix.platform }}/Release/MuteInact.tvtp
+          path: ${{ matrix.platform }}/MuteInact.tvtp
