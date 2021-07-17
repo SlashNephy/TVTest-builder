@@ -38,10 +38,10 @@ jobs:
         run: |
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path winusb/src/fwtool/${{ matrix.platform }}/fwtool.exe -Destination Artifacts/
-          Copy-Item -Path winusb/pkg/inf -Destination Artifacts/
-          Copy-Item -Path winusb/pkg/BonDriver_PX4 -Destination Artifacts/
+          Copy-Item -Path winusb/pkg/inf -Destination Artifacts/inf -Recurse
+          Copy-Item -Path winusb/pkg/BonDriver_PX4 -Destination Artifacts/BonDriver_PX4 -Recurse
           Copy-Item -Path winusb/src/BonDriver_PX4/${{ matrix.platform }}/BonDriver_PX4.dll -Destination Artifacts/BonDriver_PX4/
-          Copy-Item -Path winusb/pkg/DriverHost_PX4 -Destination Artifacts/
+          Copy-Item -Path winusb/pkg/DriverHost_PX4 -Destination Artifacts/DriverHost_PX4 -Recurse
           Copy-Item -Path winusb/src/DriverHost_PX4/${{ matrix.platform }}/DriverHost_PX4.exe -Destination Artifacts/DriverHost_PX4/
 
       - name: Upload Artifacts
