@@ -24,14 +24,13 @@ jobs:
         with:
           repository: nns779/px4_drv
           ref: winusb
-          submodules: recursive
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (px4_winusb.sln)
         working-directory: winusb
-        run: msbuild px4_winusb.sln /p:Configuration="Release-static" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
+        run: msbuild px4_winusb.sln /p:Configuration="Release-static" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}\" -m
 
       - name: Prepare Artifacts
         shell: powershell
