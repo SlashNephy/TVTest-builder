@@ -29,7 +29,9 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (CasProcessor.sln)
-        run: msbuild CasProcessor.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: |
+          chcp 932
+          msbuild CasProcessor.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m
 
       - name: Prepare Artifacts
         shell: powershell
