@@ -33,28 +33,33 @@ jobs:
         working-directory: winusb
         run: msbuild px4_winusb.sln /p:Configuration="Release-static" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
-      # - name: Prepare Artifacts
-      #   shell: powershell
-      #   run: |
-      #     New-Item -Path Artifacts -ItemType Directory
-      #     Copy-Item -Path ${{ matrix.platform }}/MuteInact.tvtp -Destination Artifacts/
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path winusb/src/fwtool/${{ matrix.platform }}/fwtool.exe -Destination Artifacts/
+          Copy-Item -Path winusb/pkg/inf -Destination Artifacts/
+          Copy-Item -Path winusb/pkg/BonDriver_PX4 -Destination Artifacts/
+          Copy-Item -Path winusb/src/BonDriver_PX4/${{ matrix.platform }}/BonDriver_PX4.dll -Destination Artifacts/BonDriver_PX4/
+          Copy-Item -Path winusb/pkg/DriverHost_PX4 -Destination Artifacts/
+          Copy-Item -Path winusb/src/DriverHost_PX4/${{ matrix.platform }}/DriverHost_PX4.exe -Destination Artifacts/DriverHost_PX4/
 
-      # - name: Upload Artifacts
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: MuteInact_${{ matrix.platform }}
-      #     if-no-files-found: error
-      #     path: Artifacts/
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: px4_drv_winusb_${{ matrix.platform }}
+          if-no-files-found: error
+          path: Artifacts/
 
-      # - name: Create Release
-      #   shell: powershell
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   run: Compress-Archive -Path Artifacts/* -DestinationPath MuteInact_${{ matrix.platform }}.zip
+      - name: Create Release
+        shell: powershell
+        if: startsWith(github.ref, 'refs/tags/')
+        run: Compress-Archive -Path Artifacts/* -DestinationPath px4_drv_winusb_${{ matrix.platform }}.zip
 
-      # - name: Upload Release
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     files: MuteInact_${{ matrix.platform }}.zip
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: px4_drv_winusb_${{ matrix.platform }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

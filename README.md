@@ -22,6 +22,7 @@ TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Re
 | [logue/TvCas](https://github.com/logue/TvCas) | CasProcessor プラグイン<br>BonDriver_EPGStation を使用する際は不要 | [![TvCas](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvCas.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TvCas.yml) | `B25.tvcas`, `SPHD.tvcas` |
 | [xtne6f/TTRec](https://github.com/xtne6f/TTRec) | 予約拡張プラグイン | [![TTRec](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TTRec.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TTRec.yml) | `TTRec.tvtp` |
 | [SlashNephy/MuteInact](https://github.com/SlashNephy/MuteInact) | ミュートプラグイン | [![MuteInact](https://github.com/SlashNephy/TVTest-builder/actions/workflows/MuteInact.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/MuteInact.yml) | `MuteInact.tvtp` |
+| [nns779/px4_drv](https://github.com/nns779/px4_drv) | 非公式 PLEX ドライバ (winusb) | [![px4_drv](https://github.com/SlashNephy/TVTest-builder/actions/workflows/px4_drv.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/px4_drv.yml) | `BonDriver_PX4.dll`, `DriverHost_PX4.exe`, ... |
 
 以下のプロジェクトは各リポジトリを参照してください。
 
