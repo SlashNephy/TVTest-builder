@@ -36,12 +36,32 @@ jobs:
         working-directory: BonDriver_Pipe_src
         run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
-      # - name: Checkout Repository (SoundTouch)
-      #   run: git clone https://gitlab.com/soundtouch/soundtouch.git -b soundtouch-1.9.2 soundtouch
+      - name: Checkout Repository (SoundTouch)
+        run: git clone https://gitlab.com/soundtouch/soundtouch.git ../soundtouch
+      - name: MSBuild (SoundTouch.sln)
+        working-directory: ../soundtouch/source/SoundTouch
+        # コマンドラインから /MD を有効にできないのでプロジェクトファイルを直接書き換える
+        run: |
+          $ProjectFile = ".\SoundTouch.vcxproj"
+          $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
+          $Content | Out-File $ProjectFile -Encoding UTF8
+          msbuild SoundTouch.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m
 
-      # - name: MSBuild (TvtAudioStretchFilter.sln)
-      #   working-directory: TvtAudioStretchFilter_src
-      #   run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
+      - name: Checkout Repository (BaseClasses)
+        run: |
+          git clone https://github.com/DBCTRADO/TVTestVideoDecoder
+          Move-Item TVTestVideoDecoder/src/BaseClasses -Destination ..\
+      - name: MSBuild (SoundTouch.sln)
+        working-directory: ../BaseClasses
+        run: |
+          $ProjectFile = ".\BaseClasses.vcxproj"
+          $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
+          $Content | Out-File $ProjectFile -Encoding UTF8
+          msbuild BaseClasses.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m
+
+      - name: MSBuild (TvtAudioStretchFilter.sln)
+        working-directory: TvtAudioStretchFilter_src
+        run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:OutDir="${{ matrix.platform }}" -m
 
       - name: Prepare Artifacts
         shell: powershell
@@ -49,7 +69,7 @@ jobs:
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path src/${{ matrix.platform }}/TvtPlay.tvtp -Destination Artifacts/
           Copy-Item -Path BonDriver_Pipe_src/${{ matrix.platform }}/BonDriver_Pipe.dll -Destination Artifacts/
-        # Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifacts/
+          Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifacts/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
