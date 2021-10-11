@@ -45,7 +45,7 @@ jobs:
           $ProjectFile = ".\SoundTouch.vcxproj"
           $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
           $Content | Out-File $ProjectFile -Encoding UTF8
-          msbuild SoundTouch.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m
+          msbuild SoundTouch.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v142
 
       - name: Checkout Repository (BaseClasses)
         run: |
@@ -57,7 +57,7 @@ jobs:
           $ProjectFile = ".\BaseClasses.vcxproj"
           $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
           $Content | Out-File $ProjectFile -Encoding UTF8
-          msbuild BaseClasses.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v160
+          msbuild BaseClasses.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v142
 
       - name: MSBuild (TvtAudioStretchFilter.sln)
         working-directory: TvtAudioStretchFilter_src
