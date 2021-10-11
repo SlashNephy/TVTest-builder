@@ -38,20 +38,20 @@ jobs:
 
       - name: Checkout Repository (SoundTouch)
         run: git clone https://gitlab.com/soundtouch/soundtouch.git ../soundtouch
-      - name: MSBuild (SoundTouch.sln)
+      - name: MSBuild (SoundTouch.vcxproj)
         working-directory: ../soundtouch/source/SoundTouch
         # コマンドラインから /MD を有効にできないのでプロジェクトファイルを直接書き換える
         run: |
           $ProjectFile = ".\SoundTouch.vcxproj"
           $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
           $Content | Out-File $ProjectFile -Encoding UTF8
-          msbuild SoundTouch.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v142
+          msbuild SoundTouch.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v142
 
       - name: Checkout Repository (BaseClasses)
         run: |
           git clone https://github.com/DBCTRADO/TVTestVideoDecoder
           Move-Item TVTestVideoDecoder/src/BaseClasses -Destination ..\
-      - name: MSBuild (SoundTouch.sln)
+      - name: MSBuild (BaseClasses.vcxproj)
         working-directory: ../BaseClasses
         run: |
           $ProjectFile = ".\BaseClasses.vcxproj"
