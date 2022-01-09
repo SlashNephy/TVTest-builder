@@ -47,13 +47,13 @@ jobs:
           $data | Out-File TVTComment/ViewModels/SettingsWindowViewModel.cs
 
       - name: Build (TVTComment.exe)
-        run: dotnet build TVTComment/TVTComment.csproj --configuration Release
+        run: dotnet build TVTComment/TVTComment.csproj --configuration Release /p:CopyLocalLockFileAssemblies=true
 
       - name: Prepare Artifacts
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows -Destination Artifacts/ -Recurse
+          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/* -Destination Artifacts/ -Recurse
           Copy-Item -Path TVTComment/Data/* -Destination Artifacts/ -Recurse
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/ -Recurse
 
