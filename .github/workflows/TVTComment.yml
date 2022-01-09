@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/TVTComment.yml
+      - Patch/TvtComment.*.patch
 
   workflow_dispatch:
 
@@ -23,6 +24,14 @@ jobs:
         with:
           repository: SlashNephy/TVTComment-txt
           path: TVTComment-txt
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          path: TVTest-builder
+
+      - name: Apply Patch
+        run: git apply TVTest-builder\Patch\TvtComment.*.patch
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
@@ -46,8 +55,8 @@ jobs:
           $data=Get-Content TVTComment/ViewModels/SettingsWindowViewModel.cs | % { $_ -replace 'secrets\["Annict:ClientSecret"\]','"${{ secrets.ANNICT_CLIENT_SECRET }}"' }
           $data | Out-File TVTComment/ViewModels/SettingsWindowViewModel.cs
 
-      - name: Build (TVTComment.exe)
-        run: dotnet build TVTComment/TVTComment.csproj --configuration Release /p:CopyLocalLockFileAssemblies=true
+      - name: Build (TvtComment.exe)
+        run: dotnet publish TVTComment/TVTComment.csproj --configuration Release /p:PublishProfile="TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml"
 
       - name: Prepare Artifacts
         shell: powershell
