@@ -30,8 +30,10 @@ jobs:
         with:
           path: TVTest-builder
 
-      - name: Apply Patch
-        run: git apply TVTest-builder\Patch\TvtComment.DoNotGenerateSingleExe.patch
+      - name: Apply Patches
+        run: |
+          git apply TVTest-builder\Patch\TvtComment.DoNotGenerateSingleExe.patch
+          git apply TVTest-builder\Patch\TvtComment.DumpPrettySettingsJson.patch
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
@@ -45,7 +47,7 @@ jobs:
         working-directory: CoreTweet
         run: |
           RestApisGen/bin/RestApisGen.exe
-          dotnet build CoreTweet/CoreTweet.csproj --configuration Release
+          dotnet build CoreTweet/CoreTweet.csproj --configuration Release /p:CopyLocalLockFileAssemblies=true
 
       - name: Replace Annict:ClientId and Annict:ClientSecret
         shell: powershell
@@ -56,13 +58,13 @@ jobs:
           $data | Out-File TVTComment/ViewModels/SettingsWindowViewModel.cs
 
       - name: Build (TvtComment.exe)
-        run: dotnet publish TVTComment/TVTComment.csproj --configuration Release /p:PublishProfile="TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml"
+        run: dotnet publish TVTComment/TVTComment.csproj --configuration Release /p:PublishProfile="TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml" /p:CopyLocalLockFileAssemblies=true
 
       - name: Prepare Artifacts
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/* -Destination Artifacts/ -Recurse
+          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifacts/ -Recurse
           Copy-Item -Path TVTComment/Data/* -Destination Artifacts/ -Recurse
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/ -Recurse
 
