@@ -31,7 +31,7 @@ jobs:
           path: TVTest-builder
 
       - name: Apply Patch
-        run: git apply TVTest-builder\Patch\TvtComment.*.patch
+        run: git apply TVTest-builder\Patch\TvtComment.DoNotGenerateSingleExe.patch
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
