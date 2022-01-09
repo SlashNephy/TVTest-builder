@@ -65,6 +65,7 @@ jobs:
         run: |
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifacts/ -Recurse
+          Copy-Item -Path CoreTweet/packages/Newtonsoft.Json.12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll -Destination Artifacts/
           Copy-Item -Path TVTComment/Data/* -Destination Artifacts/ -Recurse
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/ -Recurse
 
