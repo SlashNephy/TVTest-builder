@@ -24,7 +24,10 @@ jobs:
           repository: SlashNephy/TVTComment-txt
           path: TVTComment-txt
 
-      - name: Setup .NET
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
@@ -36,7 +39,8 @@ jobs:
         working-directory: CoreTweet
         run: |
           RestApisGen/bin/RestApisGen.exe
-          dotnet build CoreTweet-All.sln --configuration Release
+          nuget restore CoreTweet-All.sln
+          msbuild CoreTweet-All.sln /m /p:Configuration=Release
 
       - name: Replace Annict:ClientId and Annict:ClientSecret
         shell: powershell
