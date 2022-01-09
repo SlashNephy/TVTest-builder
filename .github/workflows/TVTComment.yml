@@ -8,15 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-TVTComment:
+  build-TVTComment-exe:
     runs-on: windows-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - x64
-          # - x86
 
     steps:
       - name: Checkout Repository (TVTComment)
@@ -24,11 +17,6 @@ jobs:
         with:
           repository: noriokun4649/TVTComment
           submodules: recursive
-
-      # - name: Checkout Repository (TVTest-builder)
-      #   uses: actions/checkout@v2
-      #   with:
-      #     path: TVTest-builder
 
       - name: Checkout Repository (TVTComment-txt)
         uses: actions/checkout@v2
@@ -39,37 +27,94 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: MSBuild (TVTComment.sln)
-        run: msbuild TVTComment.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m --restore /p:PostBuildEvent= /p:PostBuildEventUseInBuild=false
+      - name: Build (RestApisGen.exe)
+        run: msbuild CoreTweet/RestApisGen/RestApisGen.csproj /p:Configuration=Debug
 
-      # - name: MSBuild (Publish)
-      #   run: msbuild /t:publish /p:PublishProfile="TVTest-builder\PublishProfiles\TVTComment.pubxml" -m
+      - name: Build (CoreTweet.dll)
+        working-directory: CoreTweet
+        run: |
+          RestApisGen/bin/RestApisGen.exe
+          nuget restore CoreTweet-All.sln
+          msbuild CoreTweet-All.sln /m /p:Configuration=Release
+
+      - name: Replace Annict:ClientId and Annict:ClientSecret
+        shell: powershell
+        run: |
+          $data=Get-Content TVTComment/ViewModels/SettingsWindowViewModel.cs | % { $_ -replace 'secrets\["Annict:ClientId"\]','"${{ secrets.ANNICT_CLIENT_ID }}"' }
+          $data | Out-File TVTComment/ViewModels/SettingsWindowViewModel.cs
+          $data=Get-Content TVTComment/ViewModels/SettingsWindowViewModel.cs | % { $_ -replace 'secrets\["Annict:ClientSecret"\]','"${{ secrets.ANNICT_CLIENT_SECRET }}"' }
+          $data | Out-File TVTComment/ViewModels/SettingsWindowViewModel.cs
+
+      - name: Build (TVTComment.exe)
+        run: msbuild TVTComment/TVTComment.csproj
 
       - name: Prepare Artifacts
         shell: powershell
-        # Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/TvtComment.exe -Destination Artifacts/TvtComment -Recurse
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifacts/
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows -Destination Artifacts/TvtComment -Recurse
-          Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/TvtComment -Recurse
+          Copy-Item -Path TVTComment/bin/Release/net5.0-windows -Destination Artifacts/ -Recurse
+          Copy-Item -Path TVTComment/Data/* -Destination Artifacts/ -Recurse
+          Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/ -Recurse
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TvtComment_${{ matrix.platform }}
+          name: TvtComment_exe
           if-no-files-found: error
           path: Artifacts/
 
-      - name: Create Release
+  build-TVTComment-tvtp:
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - x64
+          - Win32
+
+    steps:
+      - name: Checkout Repository (TVTComment)
+        uses: actions/checkout@v2
+        with:
+          repository: noriokun4649/TVTComment
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Build
+        run: msbuild NicoJK/NicoJK.vcxproj -m /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932
+
+      - name: Prepare Artifacts
         shell: powershell
-        if: startsWith(github.ref, 'refs/tags/')
-        run: Compress-Archive -Path Artifacts/* -DestinationPath TvtComment_${{ matrix.platform }}.zip
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifacts/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TvtComment_tvtp_${{ matrix.platform }}
+          if-no-files-found: error
+          path: Artifacts/
+
+  release:
+    runs-on: ubuntu-latest
+
+    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - build-TVTComment-exe
+      - build-TVTComment-tvtp
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: Artifacts/
 
       - name: Upload Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: TvtComment_${{ matrix.platform }}.zip
+          files: Artifacts/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
