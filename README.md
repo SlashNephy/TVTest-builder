@@ -2,7 +2,8 @@
 
 TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 / Release|Win32 構成)
 
-ビルドの成果物は[リリース](https://github.com/SlashNephy/TVTest-builder/releases/latest) か ワークフローのページからダウンロードできます。 
+ビルドの成果物は[リリース](https://github.com/SlashNephy/TVTest-builder/releases/latest) か ワークフローのページからダウンロードできます。(ワークフローからダウンロードする場合には GitHub へのログインが必要です。)
+
 新しいビルドが必要な場合や, 他にビルドさせたいプロジェクトがある場合は適当に [Issue](https://github.com/SlashNephy/TVTest-builder/issues) を投げてくれれば対応します。更新があった場合には定期的にリリースを打つようにしています。
 
 ## 対象リポジトリ
