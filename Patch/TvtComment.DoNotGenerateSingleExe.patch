@@ -1,8 +1,8 @@
 diff --git a/TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml b/TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml
-index 65d7e3a..1be42c1 100644
+index 65d7e3a..5e41a74 100644
 --- a/TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml
 +++ b/TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml
-@@ -9,11 +9,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
+@@ -9,9 +9,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
      <PublishDir>bin\Release\net5.0-windows\publish\</PublishDir>
      <PublishProtocol>FileSystem</PublishProtocol>
      <TargetFramework>net5.0-windows</TargetFramework>
@@ -13,7 +13,5 @@ index 65d7e3a..1be42c1 100644
 +    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 +    <PublishSingleFile>False</PublishSingleFile>
      <PublishReadyToRun>False</PublishReadyToRun>
--    <PublishTrimmed>False</PublishTrimmed>
+     <PublishTrimmed>False</PublishTrimmed>
      <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-   </PropertyGroup>
- </Project>
