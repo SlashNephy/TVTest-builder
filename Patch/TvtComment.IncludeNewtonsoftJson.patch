@@ -1,0 +1,14 @@
+diff --git a/TVTComment/TVTComment.csproj b/TVTComment/TVTComment.csproj
+index b5a9f08..8589857 100644
+--- a/TVTComment/TVTComment.csproj
++++ b/TVTComment/TVTComment.csproj
+@@ -38,8 +38,6 @@
+     <Reference Include="CoreTweet">
+       <HintPath>..\CoreTweet\Release\netstandard2.1\CoreTweet.dll</HintPath>
+     </Reference>
+-    <Reference Include="Newtonsoft.Json">
+-      <HintPath>..\CoreTweet\packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+-    </Reference>
++    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+   </ItemGroup>
+ </Project>
