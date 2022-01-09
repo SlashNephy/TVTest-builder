@@ -37,7 +37,7 @@ jobs:
         run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
 
       - name: Checkout Repository (SoundTouch)
-        run: git clone https://gitlab.com/soundtouch/soundtouch.git ../soundtouch
+        run: git clone https://codeberg.org/soundtouch/soundtouch.git ../soundtouch
       - name: MSBuild (SoundTouch.vcxproj)
         working-directory: ../soundtouch/source/SoundTouch
         # コマンドラインから /MD を有効にできないのでプロジェクトファイルを直接書き換える
