@@ -34,8 +34,7 @@ jobs:
         working-directory: CoreTweet
         run: |
           RestApisGen/bin/RestApisGen.exe
-          nuget restore CoreTweet-All.sln
-          msbuild CoreTweet-All.sln /m /p:Configuration=Release
+          msbuild CoreTweet-All.sln -restore /m /p:Configuration=Release
 
       - name: Replace Annict:ClientId and Annict:ClientSecret
         shell: powershell
@@ -46,7 +45,7 @@ jobs:
           $data | Out-File TVTComment/ViewModels/SettingsWindowViewModel.cs
 
       - name: Build (TVTComment.exe)
-        run: msbuild TVTComment/TVTComment.csproj
+        run: msbuild TVTComment/TVTComment.csproj -restore /m /p:Configuration=Release
 
       - name: Prepare Artifacts
         shell: powershell
