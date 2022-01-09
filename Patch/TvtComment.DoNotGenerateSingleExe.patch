@@ -8,9 +8,10 @@ index 65d7e3a..1be42c1 100644
      <TargetFramework>net5.0-windows</TargetFramework>
 -    <SelfContained>true</SelfContained>
 -    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+-    <PublishSingleFile>True</PublishSingleFile>
 +    <SelfContained>false</SelfContained>
 +    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-     <PublishSingleFile>True</PublishSingleFile>
++    <PublishSingleFile>False</PublishSingleFile>
      <PublishReadyToRun>False</PublishReadyToRun>
 -    <PublishTrimmed>False</PublishTrimmed>
      <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
