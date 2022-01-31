@@ -28,6 +28,11 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
+      - name: Setup Windows SDK 17763
+        uses: fbactions/setup-winsdk@v1
+        with:
+          winsdk-build-version: 17763
+
       - name: MSBuild (CasProcessor.sln)
         run: |
           chcp 932
