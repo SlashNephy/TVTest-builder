@@ -38,6 +38,11 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
+      - name: Setup Windows SDK 17763
+        uses: fbactions/setup-winsdk@v1
+        with:
+          winsdk-build-version: 17763
+
       - name: MSBuild (LibISDB.sln)
         working-directory: src\LibISDB\Projects
         run: msbuild LibISDB.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
