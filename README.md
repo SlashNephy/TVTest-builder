@@ -1,8 +1,8 @@
 # TVTest-builder
 
-TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 / Release|Win32 構成)
+TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 構成, 一部 Release|Win32 構成にも対応)
 
-ビルドの成果物は[リリース](https://github.com/SlashNephy/TVTest-builder/releases/latest) か ワークフローのページからダウンロードできます。(ワークフローからダウンロードする場合には GitHub へのログインが必要です。)
+ビルドの成果物は [Release](https://github.com/SlashNephy/TVTest-builder/releases/latest) か Workflow のページからダウンロードできます。(Workflow からダウンロードする場合には GitHub へのログインが必要です。)
 
 新しいビルドが必要な場合や, 他にビルドさせたいプロジェクトがある場合は適当に [Issue](https://github.com/SlashNephy/TVTest-builder/issues) を投げてくれれば対応します。更新があった場合には定期的にリリースを打つようにしています。
 
@@ -10,7 +10,7 @@ TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Re
 
 以下のプロジェクトが対象です。
 
-| リポジトリ | 説明 | ワークフロー | 成果物 | 
+| リポジトリ | 説明 | Workflow | 成果物 | 
 |---|---|---|---|
 | [DBCTRADO/TVTest](https://github.com/DBCTRADO/TVTest) | TVTest 本体 | [![TVTest](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTest.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTest.yml) | `TVTest.exe`, `TVTest_Image.dll`, サンプルプラグイン |
 | [DBCTRADO/TVTestVideoDecoder](https://github.com/DBCTRADO/TVTestVideoDecoder) | TVTest 付属の MPEG-TS デコーダ | [![TVTestVideoDecoder](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTestVideoDecoder.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTestVideoDecoder.yml) | `TVTestVideoDecoder.ax` |
