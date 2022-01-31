@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-TVTComment-exe:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
       - name: Checkout Repository (TVTComment)
@@ -77,7 +77,7 @@ jobs:
           path: Artifacts/
 
   build-TVTComment-tvtp:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     strategy:
       fail-fast: false

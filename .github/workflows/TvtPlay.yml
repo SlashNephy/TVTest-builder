@@ -9,14 +9,14 @@ on:
 
 jobs:
   build-TvtPlay:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     strategy:
       fail-fast: false
       matrix:
         platform:
           - x64
-          - Win32
+          # - Win32
 
     steps:
       - name: Checkout Repository (TvtPlay)
