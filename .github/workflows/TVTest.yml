@@ -31,7 +31,7 @@ jobs:
           git submodule update --recursive --remote
 
           $path = "src\LibISDB\Thirdparty\fdk-aac\libSBRdec\src\sbr_crc.cpp"
-          if (!Test-Path $path) {
+          if (!(Test-Path $path)) {
               New-Item $path
           }
 
