@@ -35,7 +35,12 @@ jobs:
           git apply TVTest-builder\Patch\TvtComment.DoNotGenerateSingleExe.patch
           git apply TVTest-builder\Patch\TvtComment.DumpPrettySettingsJson.patch
           git apply TVTest-builder\Patch\TvtComment.IncludeNewtonsoftJson.patch
-          git apply TVTest-builder\Patch\TvtComment.UpdateCoretweet.patch
+          git apply TVTest-builder\Patch\TvtComment.UpdateCoreTweet.patch
+
+      - name: Update Submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --force --depth=1 --recursive
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
