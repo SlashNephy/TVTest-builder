@@ -44,14 +44,9 @@ jobs:
         with:
           dotnet-version: 5.0.x
 
-      - name: Build (RestApisGen.exe)
-        run: dotnet build CoreTweet/RestApisGen/RestApisGen.csproj
-
       - name: Build (CoreTweet.dll)
         working-directory: CoreTweet
-        run: |
-          RestApisGen/bin/RestApisGen.exe
-          dotnet build CoreTweet/CoreTweet.csproj --configuration Release /p:CopyLocalLockFileAssemblies=true
+        run: dotnet build build.proj --configuration Release /p:CopyLocalLockFileAssemblies=true
 
       - name: Replace Annict:ClientId and Annict:ClientSecret
         shell: powershell
