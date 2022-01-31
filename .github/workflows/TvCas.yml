@@ -29,10 +29,10 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (TvCas.sln, B25.tvcas)
-        run: msbuild TvCas.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild TvCas.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
 
       - name: MSBuild (TvCas.sln, SPHD.tvcas)
-        run: msbuild TvCas.sln /p:Configuration="ReleaseSPHD" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m
+        run: msbuild TvCas.sln /p:Configuration="ReleaseSPHD" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell

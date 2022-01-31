@@ -30,7 +30,7 @@ jobs:
 
       - name: MSBuild (TVTestVideoDecoder.sln)
         working-directory: src
-        run: msbuild TVTestVideoDecoder.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v142
+        run: msbuild TVTestVideoDecoder.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell

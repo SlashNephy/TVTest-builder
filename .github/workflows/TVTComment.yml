@@ -96,7 +96,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: Build
-        run: msbuild NicoJK/NicoJK.vcxproj -m /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932
+        run: msbuild NicoJK/NicoJK.vcxproj -m /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell

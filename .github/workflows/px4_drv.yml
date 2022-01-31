@@ -30,7 +30,7 @@ jobs:
 
       - name: MSBuild (px4_winusb.sln)
         working-directory: winusb
-        run: msbuild px4_winusb.sln /p:Configuration="Release-static" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}\" -m
+        run: msbuild px4_winusb.sln /p:Configuration="Release-static" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}\" -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell

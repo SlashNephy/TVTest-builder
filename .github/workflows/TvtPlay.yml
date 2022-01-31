@@ -30,11 +30,11 @@ jobs:
 
       - name: MSBuild (TvtPlay.sln)
         working-directory: src
-        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
+        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (BonDriver_Pipe.sln)
         working-directory: BonDriver_Pipe_src
-        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
+        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Checkout Repository (SoundTouch)
         run: git clone https://codeberg.org/soundtouch/soundtouch.git ../soundtouch
@@ -45,7 +45,7 @@ jobs:
           $ProjectFile = ".\SoundTouch.vcxproj"
           $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
           $Content | Out-File $ProjectFile -Encoding UTF8
-          msbuild SoundTouch.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v142
+          msbuild SoundTouch.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Checkout Repository (BaseClasses)
         run: |
@@ -57,11 +57,11 @@ jobs:
           $ProjectFile = ".\BaseClasses.vcxproj"
           $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
           $Content | Out-File $ProjectFile -Encoding UTF8
-          msbuild BaseClasses.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v142
+          msbuild BaseClasses.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (TvtAudioStretchFilter.sln)
         working-directory: TvtAudioStretchFilter_src
-        run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:OutDir="${{ matrix.platform }}" -m
+        run: msbuild TvtAudioStretchFilter.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell

@@ -30,7 +30,7 @@ jobs:
 
       - name: MSBuild (TTRec.VS2015.sln)
         working-directory: src
-        run: msbuild TTRec.VS2015.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
+        run: msbuild TTRec.VS2015.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell

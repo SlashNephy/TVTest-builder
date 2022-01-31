@@ -31,7 +31,7 @@ jobs:
       - name: MSBuild (CasProcessor.sln)
         run: |
           chcp 932
-          msbuild CasProcessor.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m
+          msbuild CasProcessor.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell

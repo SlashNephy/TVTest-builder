@@ -29,7 +29,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: MSBuild (NicoJK.sln)
-        run: msbuild NicoJK.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m
+        run: msbuild NicoJK.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell
