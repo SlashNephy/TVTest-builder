@@ -19,9 +19,6 @@ jobs:
           repository: noriokun4649/TVTComment
           submodules: recursive
 
-      - name: Update Submodules
-        run: git submodule update --recursive --remote
-
       - name: Checkout Repository (TVTComment-txt)
         uses: actions/checkout@v2
         with:
@@ -38,21 +35,16 @@ jobs:
           git apply TVTest-builder\Patch\TvtComment.DoNotGenerateSingleExe.patch
           git apply TVTest-builder\Patch\TvtComment.DumpPrettySettingsJson.patch
           git apply TVTest-builder\Patch\TvtComment.IncludeNewtonsoftJson.patch
+          git apply TVTest-builder\Patch\TvtComment.UpdateCoretweet.patch
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
 
-      - name: Build (RestApisGen.exe)
-        working-directory: CoreTweet
-        run: dotnet build RestApisGen/RestApisGen.csproj
-
       - name: Build (CoreTweet.dll)
         working-directory: CoreTweet
-        run: |
-          RestApisGen/bin/Debug/net5.0/RestApisGen.exe
-          dotnet pack build.proj --configuration Release /p:CopyLocalLockFileAssemblies=true
+        run: dotnet pack build.proj --configuration Release /p:CopyLocalLockFileAssemblies=true
 
       - name: Replace Annict:ClientId and Annict:ClientSecret
         shell: powershell
