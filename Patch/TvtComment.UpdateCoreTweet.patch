@@ -1,10 +1,3 @@
-diff --git a/CoreTweet b/CoreTweet
-index 5a59e5c..4dc9327 160000
---- a/CoreTweet
-+++ b/CoreTweet
-@@ -1 +1 @@
--Subproject commit 5a59e5cdc169fa8b3dcc0ba22d15c82f1576ce17
-+Subproject commit 4dc9327ada462db27384ad79fc660a518e4db3be
 diff --git a/TVTComment/Model/ChatCollectService/TwitterLiveChatCollectService.cs b/TVTComment/Model/ChatCollectService/TwitterLiveChatCollectService.cs
 index 9f761a8..66fdd6b 100644
 --- a/TVTComment/Model/ChatCollectService/TwitterLiveChatCollectService.cs
