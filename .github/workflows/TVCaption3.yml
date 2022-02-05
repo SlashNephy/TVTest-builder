@@ -1,0 +1,60 @@
+name: TVCaption3
+
+on:
+  push:
+    paths:
+      - .github/workflows/TVCaption3.yml
+
+  workflow_dispatch:
+
+jobs:
+  build-TVCaption3:
+    runs-on: windows-2022
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - x64
+          - Win32
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          repository: xtne6f/TVCaption3
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild (TVCaption3.sln.sln)
+        working-directory: src
+        run: msbuild TVCaption3.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+
+      - name: Prepare Artifacts
+        shell: powershell
+        run: |
+          New-Item -Path Artifacts -ItemType Directory
+          Copy-Item -Path src/${{ matrix.platform }}/TVCaption3.tvtp -Destination Artifacts/
+          Copy-Item -Path TVCaption3.ini -Destination Artifacts/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: TVCaption3_${{ matrix.platform }}
+          if-no-files-found: error
+          path: Artifacts/
+
+      - name: Create Release
+        shell: powershell
+        if: startsWith(github.ref, 'refs/tags/')
+        run: Compress-Archive -Path Artifacts/* -DestinationPath TVCaption3_${{ matrix.platform }}.zip
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: TVCaption3_${{ matrix.platform }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
