@@ -30,34 +30,11 @@ jobs:
 
       - name: MSBuild (TvtPlay.sln)
         working-directory: src
-        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (BonDriver_Pipe.sln)
         working-directory: BonDriver_Pipe_src
-        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
-
-      - name: Checkout Repository (SoundTouch)
-        run: git clone https://codeberg.org/soundtouch/soundtouch.git ../soundtouch
-      - name: MSBuild (SoundTouch.vcxproj)
-        working-directory: ../soundtouch/source/SoundTouch
-        # コマンドラインから /MD を有効にできないのでプロジェクトファイルを直接書き換える
-        run: |
-          $ProjectFile = ".\SoundTouch.vcxproj"
-          $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
-          $Content | Out-File $ProjectFile -Encoding UTF8
-          msbuild SoundTouch.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
-
-      - name: Checkout Repository (BaseClasses)
-        run: |
-          git clone https://github.com/DBCTRADO/TVTestVideoDecoder
-          Move-Item TVTestVideoDecoder/src/BaseClasses -Destination ..\
-      - name: MSBuild (BaseClasses.vcxproj)
-        working-directory: ../BaseClasses
-        run: |
-          $ProjectFile = ".\BaseClasses.vcxproj"
-          $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
-          $Content | Out-File $ProjectFile -Encoding UTF8
-          msbuild BaseClasses.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (TvtAudioStretchFilter.sln)
         working-directory: TvtAudioStretchFilter_src
