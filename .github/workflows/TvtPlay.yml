@@ -30,11 +30,36 @@ jobs:
 
       - name: MSBuild (TvtPlay.sln)
         working-directory: src
-        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+        run: msbuild TvtPlay.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (BonDriver_Pipe.sln)
         working-directory: BonDriver_Pipe_src
-        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+        run: msbuild BonDriver_Pipe.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:OutDir="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+
+      - name: Patch SoundTouch.vcxproj (SoundTouch)
+        working-directory: TvtAudioStretchFilter_src/soundtouch
+        run: git apply ..\SoundTouch.patch
+      - name: Patch SoundTouch.vcxproj (SoundTouch)
+        working-directory: TvtAudioStretchFilter_src/soundtouch/source/SoundTouch
+        # コマンドラインから /MD を有効にできないのでプロジェクトファイルを直接書き換える
+        run: |
+          $ProjectFile = ".\SoundTouch.vcxproj"
+          $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
+          $Content | Out-File $ProjectFile -Encoding UTF8
+      - name: MSBuild (SoundTouch.vcxproj)
+        working-directory: TvtAudioStretchFilter_src/soundtouch/source/SoundTouch
+        run: msbuild SoundTouch.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+
+      - name: Patch BaseClasses.vcxproj (SoundTouch)
+        working-directory: TvtAudioStretchFilter_src/baseclasses
+        # コマンドラインから /MD を有効にできないのでプロジェクトファイルを直接書き換える
+        run: |
+          $ProjectFile = ".\BaseClasses.vcxproj"
+          $Content = Get-Content $ProjectFile | % { $_ -replace "<RuntimeLibrary>.+</RuntimeLibrary>","<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>" }
+          $Content | Out-File $ProjectFile -Encoding UTF8
+      - name: MSBuild (BaseClasses.vcxproj)
+        working-directory: TvtAudioStretchFilter_src/baseclasses
+        run: msbuild BaseClasses.vcxproj /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (TvtAudioStretchFilter.sln)
         working-directory: TvtAudioStretchFilter_src
