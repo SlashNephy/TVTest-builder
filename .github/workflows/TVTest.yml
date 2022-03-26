@@ -14,9 +14,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - x64
-          # - Win32
+        include:
+          - platform: x64
+            cpu: AVX
+            cpu_property: AdvancedVectorExtensions
+          - platform: x64
+            cpu: AVX2
+            cpu_property: AdvancedVectorExtensions2
+          - platform: x64
+            cpu: AVX512
+            cpu_property: AdvancedVectorExtensions512
+          # Win32
 
     steps:
       - name: Checkout Repository
@@ -34,6 +42,12 @@ jobs:
           if (!(Test-Path $path)) {
               New-Item $path
           }
+      
+      - name: Enable Enhanced Instruction Set
+        shell: powershell
+        run: |
+          $data = Get-Content src/TVTest.vcxproj | % { $_ -replace '<EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>','<EnableEnhancedInstructionSet>${{ matrix.cpu_property }}</EnableEnhancedInstructionSet>' }
+          $data | Out-File src/TVTest.vcxproj
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
@@ -45,15 +59,15 @@ jobs:
 
       - name: MSBuild (LibISDB.sln)
         working-directory: src\LibISDB\Projects
-        run: msbuild LibISDB.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
+        run: msbuild LibISDB.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (TVTest_All.sln)
         working-directory: src
-        run: msbuild TVTest_All.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
+        run: msbuild TVTest_All.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (Samples.sln)
         working-directory: sdk/Samples
-        run: msbuild Samples.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
+        run: msbuild Samples.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell
@@ -74,19 +88,19 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: TVTest_${{ matrix.platform }}
+          name: TVTest_${{ matrix.platform }}_${{ matrix.cpu }}
           if-no-files-found: error
           path: Artifacts/
 
       - name: Create Release
         shell: powershell
         if: startsWith(github.ref, 'refs/tags/')
-        run: Compress-Archive -Path Artifacts/* -DestinationPath TVTest_${{ matrix.platform }}.zip
+        run: Compress-Archive -Path Artifacts/* -DestinationPath TVTest_${{ matrix.platform }}_${{ matrix.cpu }}.zip
 
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: TVTest_${{ matrix.platform }}.zip
+          files: TVTest_${{ matrix.platform }}_${{ matrix.cpu }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
