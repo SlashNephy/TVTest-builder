@@ -76,6 +76,7 @@ jobs:
           Copy-Item -Path src/${{ matrix.platform }}/Release/TVTest.exe -Destination Artifacts/
           Copy-Item -Path src/${{ matrix.platform }}/Release/TVTest_Image.dll -Destination Artifacts/
           Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release -Filter *.tvtp -Destination Artifacts/Plugins/ -Recurse
+          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release -Filter *.dll -Destination Artifacts/Plugins/ -Recurse
 
       - name: Prepare Assets (x64)
         if: matrix.platform == 'x64'
