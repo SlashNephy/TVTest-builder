@@ -5,7 +5,7 @@ TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Re
 ## 対象リポジトリ
 
 | リポジトリ | 説明 | Workflow |
-|---|---|---|---|
+|---|---|---|
 | [DBCTRADO/TVTest](https://github.com/DBCTRADO/TVTest) | TVTest 本体 | [![TVTest](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTest.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTest.yml) |
 | [DBCTRADO/TVTestVideoDecoder](https://github.com/DBCTRADO/TVTestVideoDecoder) | TVTest 付属の MPEG-TS デコーダ | [![TVTestVideoDecoder](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTestVideoDecoder.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/TVTestVideoDecoder.yml) |
 | [xtne6f/NicoJK](https://github.com/xtne6f/NicoJK) | 実況プラグイン | [![NicoJK](https://github.com/SlashNephy/TVTest-builder/actions/workflows/NicoJK.yml/badge.svg)](https://github.com/SlashNephy/TVTest-builder/actions/workflows/NicoJK.yml) |
@@ -23,6 +23,6 @@ TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Re
 以下のプロジェクトは各リポジトリを参照してください。
 
 | リポジトリ | 説明 | Workflow |
-|---|---|---|---|
+|---|---|---|
 | [SlashNephy/TvTestRPC](https://github.com/SlashNephy/TvTestRPC) | Discord RPC プラグイン | [![TvTestRPC](https://github.com/SlashNephy/TvTestRPC/actions/workflows/latest.yml/badge.svg)](https://github.com/SlashNephy/TvTestRPC/actions/workflows/latest.yml) |
 | [SlashNephy/TVTestAnnictRecorder](https://github.com/SlashNephy/TVTestAnnictRecorder) | Annict 記録プラグイン | [![TVTestAnnictRecorder](https://github.com/SlashNephy/TVTestAnnictRecorder/actions/workflows/latest.yml/badge.svg)](https://github.com/SlashNephy/TVTestAnnictRecorder/actions/workflows/latest.yml) |
