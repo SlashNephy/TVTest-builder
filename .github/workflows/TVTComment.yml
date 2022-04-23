@@ -41,7 +41,7 @@ jobs:
           git apply TVTest-builder\Patch\TvtComment.UpdateCoreTweet.patch
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 5.0.x
 
