@@ -69,7 +69,7 @@ jobs:
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/ -Recurse
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: TvtComment_exe
           if-no-files-found: error
@@ -104,7 +104,7 @@ jobs:
           Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifacts/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: TvtComment_tvtp_${{ matrix.platform }}
           if-no-files-found: error

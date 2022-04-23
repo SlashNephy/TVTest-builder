@@ -39,7 +39,7 @@ jobs:
           Copy-Item -Path src/${{ matrix.platform }}/TTRec.tvtp -Destination Artifacts/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: TTRec_${{ matrix.platform }}
           if-no-files-found: error

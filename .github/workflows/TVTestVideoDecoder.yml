@@ -39,7 +39,7 @@ jobs:
           Copy-Item -Path src/${{ matrix.platform }}/Release/TVTestVideoDecoder.ax -Destination Artifacts/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: TVTestVideoDecoder_${{ matrix.platform }}
           if-no-files-found: error

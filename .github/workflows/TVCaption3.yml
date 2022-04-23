@@ -40,7 +40,7 @@ jobs:
           Copy-Item -Path TVCaption3.ini -Destination Artifacts/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: TVCaption3_${{ matrix.platform }}
           if-no-files-found: error
