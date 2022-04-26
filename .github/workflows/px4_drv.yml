@@ -44,7 +44,7 @@ jobs:
           Copy-Item -Path winusb/src/DriverHost_PX4/${{ matrix.platform }}/DriverHost_PX4.exe -Destination Artifacts/DriverHost_PX4/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: px4_drv_winusb_${{ matrix.platform }}
           if-no-files-found: error

@@ -44,7 +44,7 @@ jobs:
           Copy-Item -Path gaiji -Filter TVCaptionMod2_Gaiji_*.txt -Destination Artifacts/ -Recurse
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: TVCaptionMod2_${{ matrix.platform }}
           if-no-files-found: error
