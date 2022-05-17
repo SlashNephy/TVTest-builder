@@ -63,7 +63,7 @@ jobs:
 
       - name: MSBuild (TVTest_All.sln)
         working-directory: src
-        run: msbuild TVTest_All.sln /p:Configuration="Release_MD" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+        run: msbuild TVTest.sln /p:Configuration="Release_MD" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: MSBuild (Samples.sln)
         working-directory: sdk/Samples
