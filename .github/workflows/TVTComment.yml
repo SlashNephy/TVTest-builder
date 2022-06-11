@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-TVTComment-exe:
-    runs-on: windows-2022
+  build-exe:
+    runs-on: windows-latest
 
     steps:
       - name: Checkout Repository (TVTComment)
@@ -75,8 +75,8 @@ jobs:
           if-no-files-found: error
           path: Artifacts/
 
-  build-TVTComment-tvtp:
-    runs-on: windows-2022
+  build-tvtp:
+    runs-on: windows-latest
 
     strategy:
       fail-fast: false

@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-TvtPlay:
-    runs-on: windows-2022
+  build:
+    runs-on: windows-latest
 
     strategy:
       fail-fast: false
