@@ -41,22 +41,26 @@ jobs:
           Copy-Item -Path MinSizeRel/BonDriver_EPGStation.dll -Destination Artifacts/
           Copy-Item -Path BonDriver_EPGStation.yml -Destination Artifacts/
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+      - uses: ./.github/workflows/upload-artifacts.yml
         with:
           name: BonDriver_EPGStation_${{ matrix.platform }}
-          if-no-files-found: error
-          path: Artifacts/
 
-      - name: Create Release
-        shell: powershell
-        if: startsWith(github.ref, 'refs/tags/')
-        run: Compress-Archive -Path Artifacts/* -DestinationPath BonDriver_EPGStation_${{ matrix.platform }}.zip
-
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: BonDriver_EPGStation_${{ matrix.platform }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Upload Artifacts
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: BonDriver_EPGStation_${{ matrix.platform }}
+#          if-no-files-found: error
+#          path: Artifacts/
+#
+#      - name: Create Release
+#        shell: powershell
+#        if: startsWith(github.ref, 'refs/tags/')
+#        run: Compress-Archive -Path Artifacts/* -DestinationPath BonDriver_EPGStation_${{ matrix.platform }}.zip
+#
+#      - name: Upload Release
+#        uses: softprops/action-gh-release@v1
+#        if: startsWith(github.ref, 'refs/tags/')
+#        with:
+#          files: BonDriver_EPGStation_${{ matrix.platform }}.zip
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
