@@ -16,6 +16,9 @@ jobs:
       matrix:
         include:
           - platform: x64
+            cpu: Normal
+            cpu_property: NotSet
+          - platform: x64
             cpu: AVX
             cpu_property: AdvancedVectorExtensions
           - platform: x64
