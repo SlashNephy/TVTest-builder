@@ -115,8 +115,8 @@ jobs:
 
     if: startsWith(github.ref, 'refs/tags/')
     needs:
-      - build-TVTComment-exe
-      - build-TVTComment-tvtp
+      - build-exe
+      - build-tvtp
 
     steps:
       - name: Download Artifacts
