@@ -36,9 +36,11 @@ jobs:
       - name: Apply Patches
         run: |
           git apply TVTest-builder\Patch\TvtComment.DoNotGenerateSingleExe.patch
-          git apply TVTest-builder\Patch\TvtComment.DumpPrettySettingsJson.patch
           git apply TVTest-builder\Patch\TvtComment.IncludeNewtonsoftJson.patch
           git apply TVTest-builder\Patch\TvtComment.UpdateCoreTweet.patch
+          git apply TVTest-builder\Patch\TvtComment.FixPast5chCollector.patch
+          git apply TVTest-builder\Patch\TvtComment.LogErrorBeforeCrash.patch
+          git apply TVTest-builder\Patch\TvtComment.ModifyCopyright.patch
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v2

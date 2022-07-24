@@ -1,0 +1,17 @@
+Index: TVTComment/Views/ShellContents/BasicSettingControl.xaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TVTComment/Views/ShellContents/BasicSettingControl.xaml b/TVTComment/Views/ShellContents/BasicSettingControl.xaml
+--- a/TVTComment/Views/ShellContents/BasicSettingControl.xaml	(revision c7215bc5ffc149eb786551c7da6adc6afafaf2be)
++++ b/TVTComment/Views/ShellContents/BasicSettingControl.xaml	(date 1658642730338)
+@@ -89,6 +89,8 @@
+         </TextBlock>
+         <TextBlock>
+             © 2017 silane / © 2020-2021 noriokun4649
++            <LineBreak />
++            Patched by @SlashNephy &lt;spica@starry.blue&gt;
+         </TextBlock>
+     </StackPanel>
+ </UserControl>
