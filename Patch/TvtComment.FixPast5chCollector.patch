@@ -1,13 +1,115 @@
-Index: TVTComment/Model/Nichan/PastThreadLister.cs
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
+diff --git a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
+index 8ba4c05..8a0cf5f 100644
+--- a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
++++ b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
+@@ -8,6 +8,7 @@ using System.Runtime.ExceptionServices;
+ using System.Text.RegularExpressions;
+ using System.Threading;
+ using System.Threading.Tasks;
++using Nichan;
+ 
+ namespace TVTComment.Model.ChatCollectService
+ {
+@@ -151,40 +152,53 @@ namespace TVTComment.Model.ChatCollectService
+         private static async Task<Nichan.Thread> GetThread(string server, string board, string thread, CancellationToken cancellationToken)
+         {
+             Nichan.Thread ret;
+-            // まず2ch.scのdatから取得する
+-            string datUrl = $"http://{server}.2ch.sc/{board}/dat/{thread}.dat";
+-            string datResponse = null;
+ 
+-            System.Diagnostics.Debug.WriteLine($"[PastNichanChatCollectService] HTTP Get {datUrl}");
+-
+-            try
+-            {
+-                datResponse = await httpClient.GetStringAsync(datUrl, cancellationToken).ConfigureAwait(false);
+-            }
+-            catch (HttpRequestException)
++            if (board != "livegalileo")
+             {
+-            }
++                // まず2ch.scのdatから取得する
++                string datUrl = $"http://{server}.2ch.sc/{board}/dat/{thread}.dat";
++                string datResponse = null;
+ 
+-            if (datResponse != null)
+-            {
+-                ret = new Nichan.Thread() { Name = thread };
+-                var datParser = new Nichan.DatParser();
+-                datParser.Feed(datResponse);
++                System.Diagnostics.Debug.WriteLine($"[PastNichanChatCollectService] HTTP Get {datUrl}");
++
++                try
++                {
++                    datResponse = await httpClient.GetStringAsync(datUrl, cancellationToken).ConfigureAwait(false);
++                }
++                catch (HttpRequestException)
++                {
++                }
+ 
+-                ret.Uri = new Uri(datUrl);
+-                ret.Title = datParser.ThreadTitle;
+-                while (true)
++                if (datResponse != null)
+                 {
+-                    Nichan.Res res = datParser.PopRes();
+-                    if (res == null) break;
+-                    ret.Res.Add(res);
++                    ret = new Nichan.Thread() { Name = thread };
++                    var datParser = new Nichan.DatParser();
++
++                    try
++                    {
++                        datParser.Feed(datResponse);
++                    }
++                    catch (DatParserException)
++                    {
++                        return default;
++                    }
++
++                    ret.Uri = new Uri(datUrl);
++                    ret.Title = datParser.ThreadTitle;
++                    while (true)
++                    {
++                        Nichan.Res res = datParser.PopRes();
++                        if (res == null) break;
++                        ret.Res.Add(res);
++                    }
++
++                    ret.ResCount = ret.Res.Count;
++                    return ret;
+                 }
+-                ret.ResCount = ret.Res.Count;
+-                return ret;
+             }
+ 
+             // 2ch.scがダメだった場合、5ch.netのスクレイピング
+-            string gochanUrl = $"http://{server}.5ch.net/test/read.cgi/{board}/{thread}/";
++            string gochanUrl = $"https://{server}.5ch.net/test/read.cgi/{board}/{thread}/";
+             string response;
+ 
+             System.Diagnostics.Debug.WriteLine($"[PastNichanChatCollectService] HTTP Get {gochanUrl}");
+@@ -237,7 +251,13 @@ namespace TVTComment.Model.ChatCollectService
+             ExceptionDispatchInfo.Capture(e).Throw(); // スタックトレースを保って再スロー
+         }
+ 
+-        private static readonly HttpClient httpClient = new HttpClient();
++        private static readonly HttpClient httpClient = new HttpClient
++        {
++            DefaultRequestHeaders =
++            {
++                {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
++            }
++        };
+         private readonly NichanUtils.INichanThreadSelector threadSelector;
+         private readonly TimeSpan threadSelectionUpdateInterval;
+         private readonly List<Nichan.Thread> threadList = new List<Nichan.Thread>();
 diff --git a/TVTComment/Model/Nichan/PastThreadLister.cs b/TVTComment/Model/Nichan/PastThreadLister.cs
---- a/TVTComment/Model/Nichan/PastThreadLister.cs	(revision c7215bc5ffc149eb786551c7da6adc6afafaf2be)
-+++ b/TVTComment/Model/Nichan/PastThreadLister.cs	(date 1658642193524)
+index 6298e00..c7b23cf 100644
+--- a/TVTComment/Model/Nichan/PastThreadLister.cs
++++ b/TVTComment/Model/Nichan/PastThreadLister.cs
 @@ -1,8 +1,11 @@
- using System;
+ ﻿using System;
  using System.Collections.Generic;
 +using System.Diagnostics;
  using System.IO;
@@ -18,7 +120,7 @@ diff --git a/TVTComment/Model/Nichan/PastThreadLister.cs b/TVTComment/Model/Nich
  using System.Runtime.CompilerServices;
  using System.Text;
  using System.Text.RegularExpressions;
-@@ -75,7 +78,13 @@
+@@ -75,7 +78,13 @@ namespace Nichan
              }
          }
  
@@ -33,7 +135,7 @@ diff --git a/TVTComment/Model/Nichan/PastThreadLister.cs b/TVTComment/Model/Nich
          private readonly ArchivedThreadListRetriever threadListRetriever;
          private readonly TimeSpan backTime;
          /// <summary>
-@@ -89,7 +98,8 @@
+@@ -89,7 +98,8 @@ namespace Nichan
              var reses = new List<Res>();
  
              Match match = reThreadUrl.Match(threadUrl);
@@ -43,7 +145,7 @@ diff --git a/TVTComment/Model/Nichan/PastThreadLister.cs b/TVTComment/Model/Nich
              {
                  // まず2ch.scのdatから取得する
                  (string server, string board, string threadId) = (match.Groups["server"].Value, match.Groups["board"].Value, match.Groups["thread"].Value);
-@@ -109,7 +119,15 @@
+@@ -109,7 +119,15 @@ namespace Nichan
                  if (datResponse != null)
                  {
                      var datParser = new DatParser();
@@ -60,7 +162,7 @@ diff --git a/TVTComment/Model/Nichan/PastThreadLister.cs b/TVTComment/Model/Nich
  
                      while (true)
                      {
-@@ -137,6 +155,8 @@
+@@ -137,6 +155,8 @@ namespace Nichan
                  }
                  catch (HttpRequestException e)
                  {
@@ -69,115 +171,3 @@ diff --git a/TVTComment/Model/Nichan/PastThreadLister.cs b/TVTComment/Model/Nich
                      if (e.StatusCode == null)
                          throw new NetworkException(threadUrl, null, e);
                      else
-Index: TVTComment/Model/Nichan/DatParser.cs
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
-diff --git a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
---- a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs	(revision c7215bc5ffc149eb786551c7da6adc6afafaf2be)
-+++ b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs	(date 1658642434070)
-@@ -8,6 +8,7 @@
- using System.Text.RegularExpressions;
- using System.Threading;
- using System.Threading.Tasks;
-+using Nichan;
- 
- namespace TVTComment.Model.ChatCollectService
- {
-@@ -151,40 +152,53 @@
-         private static async Task<Nichan.Thread> GetThread(string server, string board, string thread, CancellationToken cancellationToken)
-         {
-             Nichan.Thread ret;
--            // まず2ch.scのdatから取得する
--            string datUrl = $"http://{server}.2ch.sc/{board}/dat/{thread}.dat";
--            string datResponse = null;
-+
-+            if (board != "livegalileo")
-+            {
-+                // まず2ch.scのdatから取得する
-+                string datUrl = $"http://{server}.2ch.sc/{board}/dat/{thread}.dat";
-+                string datResponse = null;
- 
--            System.Diagnostics.Debug.WriteLine($"[PastNichanChatCollectService] HTTP Get {datUrl}");
-+                System.Diagnostics.Debug.WriteLine($"[PastNichanChatCollectService] HTTP Get {datUrl}");
- 
--            try
--            {
--                datResponse = await httpClient.GetStringAsync(datUrl, cancellationToken).ConfigureAwait(false);
--            }
--            catch (HttpRequestException)
--            {
--            }
-+                try
-+                {
-+                    datResponse = await httpClient.GetStringAsync(datUrl, cancellationToken).ConfigureAwait(false);
-+                }
-+                catch (HttpRequestException)
-+                {
-+                }
- 
--            if (datResponse != null)
--            {
--                ret = new Nichan.Thread() { Name = thread };
--                var datParser = new Nichan.DatParser();
--                datParser.Feed(datResponse);
-+                if (datResponse != null)
-+                {
-+                    ret = new Nichan.Thread() { Name = thread };
-+                    var datParser = new Nichan.DatParser();
-+
-+                    try
-+                    {
-+                        datParser.Feed(datResponse);
-+                    }
-+                    catch (DatParserException)
-+                    {
-+                        return default;
-+                    }
- 
--                ret.Uri = new Uri(datUrl);
--                ret.Title = datParser.ThreadTitle;
--                while (true)
--                {
--                    Nichan.Res res = datParser.PopRes();
--                    if (res == null) break;
--                    ret.Res.Add(res);
--                }
--                ret.ResCount = ret.Res.Count;
--                return ret;
-+                    ret.Uri = new Uri(datUrl);
-+                    ret.Title = datParser.ThreadTitle;
-+                    while (true)
-+                    {
-+                        Nichan.Res res = datParser.PopRes();
-+                        if (res == null) break;
-+                        ret.Res.Add(res);
-+                    }
-+
-+                    ret.ResCount = ret.Res.Count;
-+                    return ret;
-+                }
-             }
- 
-             // 2ch.scがダメだった場合、5ch.netのスクレイピング
--            string gochanUrl = $"http://{server}.5ch.net/test/read.cgi/{board}/{thread}/";
-+            string gochanUrl = $"https://{server}.5ch.net/test/read.cgi/{board}/{thread}/";
-             string response;
- 
-             System.Diagnostics.Debug.WriteLine($"[PastNichanChatCollectService] HTTP Get {gochanUrl}");
-@@ -237,7 +251,13 @@
-             ExceptionDispatchInfo.Capture(e).Throw(); // スタックトレースを保って再スロー
-         }
- 
--        private static readonly HttpClient httpClient = new HttpClient();
-+        private static readonly HttpClient httpClient = new HttpClient
-+        {
-+            DefaultRequestHeaders =
-+            {
-+                {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
-+            }
-+        };
-         private readonly NichanUtils.INichanThreadSelector threadSelector;
-         private readonly TimeSpan threadSelectionUpdateInterval;
-         private readonly List<Nichan.Thread> threadList = new List<Nichan.Thread>();

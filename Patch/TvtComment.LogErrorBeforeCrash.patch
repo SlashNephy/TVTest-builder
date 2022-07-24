@@ -1,18 +1,14 @@
-Index: TVTComment/Model/IPCModule.cs
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
 diff --git a/TVTComment/Model/IPCModule.cs b/TVTComment/Model/IPCModule.cs
---- a/TVTComment/Model/IPCModule.cs	(revision c7215bc5ffc149eb786551c7da6adc6afafaf2be)
-+++ b/TVTComment/Model/IPCModule.cs	(date 1658633740467)
+index c66ebf4..5630d5d 100644
+--- a/TVTComment/Model/IPCModule.cs
++++ b/TVTComment/Model/IPCModule.cs
 @@ -1,4 +1,5 @@
- using System;
+ ﻿using System;
 +using System.Diagnostics;
  using System.IO;
  using System.Threading;
  using System.Threading.Tasks;
-@@ -100,6 +101,7 @@
+@@ -100,6 +101,7 @@ namespace TVTComment.Model
              }
              catch (Exception e)
              {
@@ -20,7 +16,7 @@ diff --git a/TVTComment/Model/IPCModule.cs b/TVTComment/Model/IPCModule.cs
                  //不明な例外が投げられた時は以降操作できない
                  await Dispose(IPCModuleDisposeReason.UnexpectedError, e);
                  throw;
-@@ -145,6 +147,7 @@
+@@ -145,6 +147,7 @@ namespace TVTComment.Model
              }
              catch (Exception e)
              {
@@ -28,7 +24,7 @@ diff --git a/TVTComment/Model/IPCModule.cs b/TVTComment/Model/IPCModule.cs
                  await Dispose(IPCModuleDisposeReason.UnexpectedError, e).ConfigureAwait(false);
                  throw;
              }
-@@ -190,6 +193,7 @@
+@@ -190,6 +193,7 @@ namespace TVTComment.Model
              }
              catch (Exception e)
              {
