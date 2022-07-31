@@ -105,7 +105,7 @@ index 8ba4c05..8a0cf5f 100644
          private readonly TimeSpan threadSelectionUpdateInterval;
          private readonly List<Nichan.Thread> threadList = new List<Nichan.Thread>();
 diff --git a/TVTComment/Model/Nichan/PastThreadLister.cs b/TVTComment/Model/Nichan/PastThreadLister.cs
-index 6298e00..c7b23cf 100644
+index 6298e00..53cb228 100644
 --- a/TVTComment/Model/Nichan/PastThreadLister.cs
 +++ b/TVTComment/Model/Nichan/PastThreadLister.cs
 @@ -1,8 +1,11 @@
@@ -162,12 +162,18 @@ index 6298e00..c7b23cf 100644
  
                      while (true)
                      {
-@@ -137,6 +155,8 @@ namespace Nichan
-                 }
-                 catch (HttpRequestException e)
+@@ -135,12 +153,9 @@ namespace Nichan
                  {
-+                    Debug.WriteLine(e.ToString());
-+
-                     if (e.StatusCode == null)
-                         throw new NetworkException(threadUrl, null, e);
-                     else
+                     response = await httpClient.GetStringAsync(threadUrl, cancellationToken).ConfigureAwait(false);
+                 }
+-                catch (HttpRequestException e)
++                catch (HttpRequestException)
+                 {
+-                    if (e.StatusCode == null)
+-                        throw new NetworkException(threadUrl, null, e);
+-                    else
+-                        throw new HttpErrorResponseException((int)e.StatusCode.Value, null, threadUrl, null, e);
++                    return (default, default);
+                 }
+ 
+                 using var textReader = new StringReader(response);
