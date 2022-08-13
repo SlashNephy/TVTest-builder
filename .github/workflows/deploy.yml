@@ -32,9 +32,10 @@ jobs:
 
       - name: Prepare Commit Message
         id: message
-        run: echo "::set-output name=value::🆙 `date '+%Y-%m-%d'` (${COMMIT_HASH:0:7})"
+        run: echo "::set-output name=value::🆙 `date '+%Y-%m-%d'` (${ARTIFACT_NAME}, ${COMMIT_HASH:0:7})"
         env:
           TZ: 'Asia/Tokyo'
+          ARTIFACT_NAME: '${{ inputs.artifact-name }}'
           COMMIT_HASH: '${{ github.sha }}'
 
       - name: Push to Target Repository
