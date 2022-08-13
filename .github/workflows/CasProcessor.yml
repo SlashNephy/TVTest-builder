@@ -63,7 +63,7 @@ jobs:
         with:
           script: |
             core.setOutput("artifact", "CasProcessor_${{ matrix.platform }}")
-            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+            core.setOutput("should_deploy", "${{ matrix.deploy }}")
 
   release:
     needs: build

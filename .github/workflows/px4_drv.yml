@@ -62,7 +62,7 @@ jobs:
         with:
           script: |
             core.setOutput("artifact", "px4_drv_winusb_${{ matrix.platform }}")
-            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+            core.setOutput("should_deploy", "${{ matrix.deploy }}")
 
   release:
     needs: build

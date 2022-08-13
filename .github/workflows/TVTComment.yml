@@ -131,7 +131,7 @@ jobs:
         with:
           script: |
             core.setOutput("artifact", "TvtComment_tvtp_${{ matrix.platform }}")
-            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+            core.setOutput("should_deploy", "${{ matrix.deploy }}")
 
   deploy-tvtp:
     needs: build-tvtp

@@ -111,7 +111,7 @@ jobs:
         with:
           script: |
             core.setOutput("artifact", "TVTest_${{ matrix.platform }}_${{ matrix.cpu }}")
-            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+            core.setOutput("should_deploy", "${{ matrix.deploy }}")
 
   release:
     needs: build
