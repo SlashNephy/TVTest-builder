@@ -41,7 +41,7 @@ jobs:
         run: |
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path src/${{ matrix.platform }}/TVCaptionMod2.tvtp -Destination Artifacts/
-          Copy-Item -Path gaiji/ -Filter TVCaptionMod2_Gaiji_*.txt -Destination Artifacts/ -Recurse
+          Copy-Item -Path gaiji/* -Filter TVCaptionMod2_Gaiji_*.txt -Destination Artifacts/ -Recurse
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
