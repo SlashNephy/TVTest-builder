@@ -12,6 +12,9 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: 'deploy'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
