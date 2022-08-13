@@ -73,4 +73,5 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       artifact-name: '${{ needs.build.outputs.artifact }}'
+    secrets: inherit
     permissions: {}
