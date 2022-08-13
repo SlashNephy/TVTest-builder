@@ -41,7 +41,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifact/Plugins -ItemType Directory
-          Copy-Item -Path ${{ matrix.platform }}/NicoJK.tvtp -Destination Artifacts/Plugin/
+          Copy-Item -Path ${{ matrix.platform }}/NicoJK.tvtp -Destination Artifact/Plugins/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
