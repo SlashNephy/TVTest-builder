@@ -134,7 +134,7 @@ jobs:
             core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
 
   deploy-tvtp:
-    needs: build
+    needs: build-tvtp
     if: needs.build.outputs.should_deploy == 'true'
     uses: ./.github/workflows/deploy.yml
     with:
