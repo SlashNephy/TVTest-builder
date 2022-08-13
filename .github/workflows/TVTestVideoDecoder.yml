@@ -18,6 +18,9 @@ jobs:
           - x64
           - Win32
 
+    outputs:
+      artifact: ${{ steps.output.outputs.artifact }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -28,9 +31,9 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: MSBuild (TVTestVideoDecoder.sln)
+      - name: MSBuild
         working-directory: src
-        run: msbuild TVTestVideoDecoder.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
+        run: msbuild /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell
@@ -45,15 +48,12 @@ jobs:
           if-no-files-found: error
           path: Artifacts/
 
-      - name: Create Release
-        shell: powershell
-        if: startsWith(github.ref, 'refs/tags/')
-        run: Compress-Archive -Path Artifacts/* -DestinationPath TVTestVideoDecoder_${{ matrix.platform }}.zip
+      - name: Set output
+        id: output
+        run: echo "::set-output name=artifact::TVTestVideoDecoder_${{ matrix.platform }}"
 
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: TVTestVideoDecoder_${{ matrix.platform }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
