@@ -69,9 +69,10 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path src/${{ matrix.platform }}/TvtPlay.tvtp -Destination Artifacts/
+          New-Item -Path Artifacts/Plugins -ItemType Directory
+          Copy-Item -Path src/${{ matrix.platform }}/TvtPlay.tvtp -Destination Artifacts/Plugins/
           Copy-Item -Path BonDriver_Pipe_src/${{ matrix.platform }}/BonDriver_Pipe.dll -Destination Artifacts/
-          Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifacts/
+          Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifacts/Plugins/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3

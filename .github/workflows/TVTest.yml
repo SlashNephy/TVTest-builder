@@ -47,6 +47,7 @@ jobs:
           }
 
       - name: Enable Enhanced Instruction Set
+        if: matrix.cpu_property != 'NotSet'
         shell: powershell
         run: |
           $data = Get-Content src/TVTest.vcxproj | % { $_ -replace '<EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>','<EnableEnhancedInstructionSet>${{ matrix.cpu_property }}</EnableEnhancedInstructionSet>' }
@@ -78,8 +79,8 @@ jobs:
           New-Item -Path Artifacts -ItemType Directory
           Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest.exe -Destination Artifacts/
           Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest_Image.dll -Destination Artifacts/
-          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release -Filter *.tvtp -Destination Artifacts/Plugins/ -Recurse
-          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release -Filter *.dll -Destination Artifacts/Plugins/ -Recurse
+          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release -Filter *.tvtp -Destination Artifacts/Plugins/
+          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release -Filter *.dll -Destination Artifacts/Plugins/
 
       - name: Prepare Assets (x64)
         if: matrix.platform == 'x64'
