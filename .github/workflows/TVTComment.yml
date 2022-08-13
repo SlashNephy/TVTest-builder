@@ -34,7 +34,12 @@ jobs:
           path: TVTest-builder
 
       - name: Apply Patches
-        run: git apply TVTest-builder\Patch\TvtComment.*.patch
+        shell: powershell
+        run: |
+          foreach ($item in Get-ChildItem TVTest-builder\Patch\TvtComment.*.patch)
+          {
+              git apply $item.FullName
+          }
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v2
@@ -59,10 +64,10 @@ jobs:
       - name: Prepare Artifacts
         shell: powershell
         run: |
-          New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifacts/ -Recurse
-          Copy-Item -Path TVTComment/Data/* -Destination Artifacts/ -Recurse
-          Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/ -Recurse
+          New-Item -Path Artifacts/Plugins/TvtComment -ItemType Directory
+          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifacts/Plugins/TvtComment/ -Recurse
+          Copy-Item -Path TVTComment/Data/* -Destination Artifacts/Plugins/TvtComment/ -Recurse
+          Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/Plugins/TvtComment/ -Recurse
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -96,8 +101,8 @@ jobs:
       - name: Prepare Artifacts
         shell: powershell
         run: |
-          New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifacts/
+          New-Item -Path Artifacts/Plugins -ItemType Directory
+          Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifacts/Plugins/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
