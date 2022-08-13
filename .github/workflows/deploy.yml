@@ -10,6 +10,8 @@ on:
       GH_PAT:
         required: true
 
+permissions: {}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,33 +22,19 @@ jobs:
           repository: 'StarryBlueSky/TVTest-distribution'
           token: '${{ secrets.GH_PAT }}'
 
-      - name: Prepare Short SHA
-        uses: benjlevesque/short-sha@v1.2
-        id: short-sha
-
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          path: 'Artifact'
           name: '${{ inputs.artifact-name }}'
 
-      - name: Create Release Zip
-        run: zip -r ${{ inputs.artifact-name }}.zip Artifact/
-
-      - name: Upload Release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: '${{ inputs.artifact-name }}.zip'
+      - name: Prepare Commit Message
+        id: message
+        run: echo "::set-output name=value::🆙 `date '+%Y-%m-%d'` (${COMMIT_HASH:0:7})"
         env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: Clean Up
-        run: |
-          rm ${{ inputs.artifact-name }}.zip
-          mv -f Artifact/* .
+          TZ: 'Asia/Tokyo'
+          COMMIT_HASH: '${{ github.sha }}'
 
       - name: Push to Target Repository
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: '🆙 Update @ ${{ steps.short-sha.output }}'
+          commit_message: '${{ steps.message.value }}'

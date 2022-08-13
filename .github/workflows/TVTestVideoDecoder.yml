@@ -14,12 +14,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - x64
-          - Win32
+        target:
+          - platform: x64
+            deploy: true
+          - platform: Win32
+            deploy: false
 
     outputs:
       artifact: ${{ steps.output.outputs.artifact }}
+      should_deploy: ${{ steps.output.outputs.should_deploy }}
 
     steps:
       - name: Checkout Repository
@@ -33,28 +36,41 @@ jobs:
 
       - name: MSBuild
         working-directory: src
-        run: msbuild /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
+        run: msbuild /p:Configuration="Release" /p:Platform="${{ matrix.target.platform }}" -m /p:PlatformToolset=v143
 
-      - name: Prepare Artifacts
+      - name: Prepare Artifact
         shell: powershell
         run: |
-          New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path src/${{ matrix.platform }}/Release/TVTestVideoDecoder.ax -Destination Artifacts/
+          New-Item -Path Artifact -ItemType Directory
+          Copy-Item -Path src/${{ matrix.target.platform }}/Release/TVTestVideoDecoder.ax -Destination Artifact/
 
-      - name: Upload Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: TVTestVideoDecoder_${{ matrix.platform }}
+          name: TVTestVideoDecoder_${{ matrix.target.platform }}
+          path: Artifact/
           if-no-files-found: error
-          path: Artifacts/
 
-      - name: Set output
+      - name: Set Job Outputs
         id: output
-        run: echo "::set-output name=artifact::TVTestVideoDecoder_${{ matrix.platform }}"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setOutput("artifact", "TVTestVideoDecoder_${{ matrix.target.platform }}")
+            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+
+  release:
+    needs: build
+    uses: ./.github/workflows/release.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    permissions:
+      contents: write
 
   deploy:
     needs: build
+    if: needs.build.outputs.should_deploy == 'true'
     uses: ./.github/workflows/deploy.yml
     with:
       artifact-name: '${{ needs.build.outputs.artifact }}'
-    secrets: inherit
+    permissions: {}
