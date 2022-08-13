@@ -37,4 +37,4 @@ jobs:
       - name: Push to Target Repository
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: '${{ steps.message.value }}'
+          commit_message: '${{ steps.message.outputs.value }}'
