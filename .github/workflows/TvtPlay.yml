@@ -14,9 +14,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - x64
-          # - Win32
+        include:
+          - platform: x64
+            deploy: true
+          # - platform: Win32
+          #   deploy: false
+
+    outputs:
+      artifact: ${{ steps.output.outputs.artifact }}
+      should_deploy: ${{ steps.output.outputs.should_deploy }}
 
     steps:
       - name: Checkout Repository (TvtPlay)
@@ -68,28 +74,40 @@ jobs:
       - name: Prepare Artifacts
         shell: powershell
         run: |
-          New-Item -Path Artifacts -ItemType Directory
-          New-Item -Path Artifacts/Plugins -ItemType Directory
-          Copy-Item -Path src/${{ matrix.platform }}/TvtPlay.tvtp -Destination Artifacts/Plugins/
-          Copy-Item -Path BonDriver_Pipe_src/${{ matrix.platform }}/BonDriver_Pipe.dll -Destination Artifacts/
-          Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifacts/Plugins/
+          New-Item -Path Artifact -ItemType Directory
+          New-Item -Path Artifact/Plugins -ItemType Directory
+          Copy-Item -Path src/${{ matrix.platform }}/TvtPlay.tvtp -Destination Artifact/Plugins/
+          Copy-Item -Path BonDriver_Pipe_src/${{ matrix.platform }}/BonDriver_Pipe.dll -Destination Artifact/
+          Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifact/Plugins/
 
-      - name: Upload Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: TvtPlay_${{ matrix.platform }}
           if-no-files-found: error
-          path: Artifacts/
+          path: Artifact/
 
-      - name: Create Release
-        shell: powershell
-        if: startsWith(github.ref, 'refs/tags/')
-        run: Compress-Archive -Path Artifacts/* -DestinationPath TvtPlay_${{ matrix.platform }}.zip
-
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Set Job Outputs
+        id: output
+        uses: actions/github-script@v6
         with:
-          files: TvtPlay_${{ matrix.platform }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            core.setOutput("artifact", "TvtPlay_${{ matrix.platform }}")
+            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+
+  release:
+    needs: build
+    uses: ./.github/workflows/release.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    permissions:
+      contents: write
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.should_deploy == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    secrets: inherit
+    permissions: {}

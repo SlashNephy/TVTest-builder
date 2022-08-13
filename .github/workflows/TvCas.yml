@@ -14,9 +14,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - x64
-          # - x86
+        include:
+          - platform: x64
+            deploy: true
+          # - platform: x86
+          #   deploy: false
+
+    outputs:
+      artifact: ${{ steps.output.outputs.artifact }}
+      should_deploy: ${{ steps.output.outputs.should_deploy }}
 
     steps:
       - name: Checkout Repository
@@ -42,26 +48,38 @@ jobs:
       - name: Prepare Artifacts
         shell: powershell
         run: |
-          New-Item -Path Artifacts -ItemType Directory
-          Copy-Item -Path ${{ matrix.platform }}/Release/B25.tvcas -Destination Artifacts/
-          Copy-Item -Path ${{ matrix.platform }}/ReleaseSPHD/SPHD.tvcas -Destination Artifacts/
+          New-Item -Path Artifact -ItemType Directory
+          Copy-Item -Path ${{ matrix.platform }}/Release/B25.tvcas -Destination Artifact/
+          Copy-Item -Path ${{ matrix.platform }}/ReleaseSPHD/SPHD.tvcas -Destination Artifact/
 
-      - name: Upload Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: TvCas_${{ matrix.platform }}
           if-no-files-found: error
-          path: Artifacts/
+          path: Artifact/
 
-      - name: Create Release
-        shell: powershell
-        if: startsWith(github.ref, 'refs/tags/')
-        run: Compress-Archive -Path Artifacts/* -DestinationPath TvCas_${{ matrix.platform }}.zip
-
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Set Job Outputs
+        id: output
+        uses: actions/github-script@v6
         with:
-          files: TvCas_${{ matrix.platform }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            core.setOutput("artifact", "TvCas_${{ matrix.platform }}")
+            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+
+  release:
+    needs: build
+    uses: ./.github/workflows/release.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    permissions:
+      contents: write
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.should_deploy == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    secrets: inherit
+    permissions: {}

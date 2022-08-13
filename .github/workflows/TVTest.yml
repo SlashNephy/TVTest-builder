@@ -18,16 +18,24 @@ jobs:
           - platform: x64
             cpu: Normal
             cpu_property: NotSet
+            deploy: false
           - platform: x64
             cpu: AVX
             cpu_property: AdvancedVectorExtensions
+            deploy: false
           - platform: x64
             cpu: AVX2
             cpu_property: AdvancedVectorExtensions2
+            deploy: true
           - platform: x64
             cpu: AVX512
             cpu_property: AdvancedVectorExtensions512
+            deploy: false
           # Win32
+
+    outputs:
+      artifact: ${{ steps.output.outputs.artifact }}
+      should_deploy: ${{ steps.output.outputs.should_deploy }}
 
     steps:
       - name: Checkout Repository
@@ -76,11 +84,11 @@ jobs:
       - name: Prepare Artifacts
         shell: powershell
         run: |
-          New-Item -Path Artifacts/Plugins -ItemType Directory
-          Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest.exe -Destination Artifacts/
-          Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest_Image.dll -Destination Artifacts/
-          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release/*.tvtp -Destination Artifacts/Plugins/
-          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release/*.dll -Destination Artifacts/Plugins/
+          New-Item -Path Artifact/Plugins -ItemType Directory
+          Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest.exe -Destination Artifact/
+          Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest_Image.dll -Destination Artifact/
+          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release/*.tvtp -Destination Artifact/Plugins/
+          Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release/*.dll -Destination Artifact/Plugins/
 
       - name: Prepare Assets (x64)
         if: matrix.platform == 'x64'
@@ -88,24 +96,36 @@ jobs:
         run: Get-ChildItem -Path data/Data_x64 | Move-Item -Destination data/ -Force
       - name: Prepare Assets
         shell: powershell
-        run: Copy-Item -Path data/* -Destination Artifacts/ -Recurse
+        run: Copy-Item -Path data/* -Destination Artifact/ -Recurse
 
-      - name: Upload Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: TVTest_${{ matrix.platform }}_${{ matrix.cpu }}
           if-no-files-found: error
-          path: Artifacts/
+          path: Artifact/
 
-      - name: Create Release
-        shell: powershell
-        if: startsWith(github.ref, 'refs/tags/')
-        run: Compress-Archive -Path Artifacts/* -DestinationPath TVTest_${{ matrix.platform }}_${{ matrix.cpu }}.zip
-
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Set Job Outputs
+        id: output
+        uses: actions/github-script@v6
         with:
-          files: TVTest_${{ matrix.platform }}_${{ matrix.cpu }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            core.setOutput("artifact", "TVTest_${{ matrix.platform }}_${{ matrix.cpu }}")
+            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+
+  release:
+    needs: build
+    uses: ./.github/workflows/release.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    permissions:
+      contents: write
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.should_deploy == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    secrets: inherit
+    permissions: {}

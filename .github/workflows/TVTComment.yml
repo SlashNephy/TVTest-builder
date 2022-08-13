@@ -61,20 +61,28 @@ jobs:
       - name: Build (TvtComment.exe)
         run: dotnet publish TVTComment/TVTComment.csproj --configuration Release /p:PublishProfile="TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml" /p:CopyLocalLockFileAssemblies=true
 
-      - name: Prepare Artifacts
+      - name: Prepare Artifact
         shell: powershell
         run: |
-          New-Item -Path Artifacts/Plugins/TvtComment -ItemType Directory
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifacts/Plugins/TvtComment/ -Recurse
-          Copy-Item -Path TVTComment/Data/* -Destination Artifacts/Plugins/TvtComment/ -Recurse
-          Copy-Item -Path TVTComment-txt/*.txt -Destination Artifacts/Plugins/TvtComment/ -Recurse
+          New-Item -Path Artifact/Plugins/TvtComment -ItemType Directory
+          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifact/Plugins/TvtComment/ -Recurse
+          Copy-Item -Path TVTComment/Data/* -Destination Artifact/Plugins/TvtComment/ -Recurse
+          Copy-Item -Path TVTComment-txt/*.txt -Destination Artifact/Plugins/TvtComment/ -Recurse
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: TvtComment_exe
           if-no-files-found: error
-          path: Artifacts/
+          path: Artifact/
+
+  deploy-exe:
+    needs: build-exe
+    uses: ./.github/workflows/deploy.yml
+    with:
+      artifact-name: 'TvtComment_exe'
+    secrets: inherit
+    permissions: {}
 
   build-tvtp:
     runs-on: windows-latest
@@ -82,9 +90,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - x64
-          - Win32
+        include:
+          - platform: x64
+            deploy: true
+          - platform: Win32
+            deploy: false
+
+    outputs:
+      artifact: ${{ steps.output.outputs.artifact }}
+      should_deploy: ${{ steps.output.outputs.should_deploy }}
 
     steps:
       - name: Checkout Repository (TVTComment)
@@ -101,15 +115,32 @@ jobs:
       - name: Prepare Artifacts
         shell: powershell
         run: |
-          New-Item -Path Artifacts/Plugins -ItemType Directory
-          Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifacts/Plugins/
+          New-Item -Path Artifact/Plugins -ItemType Directory
+          Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifact/Plugins/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: TvtComment_tvtp_${{ matrix.platform }}
           if-no-files-found: error
-          path: Artifacts/
+          path: Artifact/
+
+      - name: Set Job Outputs
+        id: output
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setOutput("artifact", "TvtComment_tvtp_${{ matrix.platform }}")
+            core.setOutput("should_deploy", "${{ matrix.target.deploy }}")
+
+  deploy-tvtp:
+    needs: build
+    if: needs.build.outputs.should_deploy == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      artifact-name: '${{ needs.build.outputs.artifact }}'
+    secrets: inherit
+    permissions: {}
 
   release:
     runs-on: ubuntu-latest
