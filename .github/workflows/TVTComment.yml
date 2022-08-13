@@ -135,10 +135,10 @@ jobs:
 
   deploy-tvtp:
     needs: build-tvtp
-    if: needs.build.outputs.should_deploy == 'true'
+    if: needs.build-tvtp.outputs.should_deploy == 'true'
     uses: ./.github/workflows/deploy.yml
     with:
-      artifact-name: '${{ needs.build.outputs.artifact }}'
+      artifact-name: '${{ needs.build-tvtp.outputs.artifact }}'
     secrets: inherit
     permissions: {}
 
