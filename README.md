@@ -1,6 +1,8 @@
 # TVTest-builder
 
-TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64, 一部 Release|Win32, AVX, AVX2, AVX512 命令セットに対応)
+TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 構成でビルド、一部 Release|Win32, AVX, AVX2, AVX512 命令セットに対応しています。)
+
+このリポジトリでビルドされた成果物の動作には、[Visual C++ 再頒布可能パッケージ (2022)](https://docs.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) のインストールが必要です。(静的リンクされていません。)
 
 ## 対象リポジトリ
 
