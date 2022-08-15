@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - platform: x64
-            deploy: true
+            deploy: false
           - platform: x86
             deploy: false
 
