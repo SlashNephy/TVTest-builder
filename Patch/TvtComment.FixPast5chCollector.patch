@@ -177,3 +177,17 @@ index 6298e00..53cb228 100644
                  }
  
                  using var textReader = new StringReader(response);
+@@ -150,10 +165,10 @@ namespace Nichan
+ 
+             var firstRes = reses[0];
+             var lastRes = reses.FindLast(x => x.Number <= 1000 && x.Date != null);
+-            var start = firstRes.Date == null ? null : (DateTimeOffset?)new DateTimeOffset(firstRes.Date.Value, TimeSpan.FromHours(9));
+-            var end = lastRes.Date == null ? null : (DateTimeOffset?)new DateTimeOffset(lastRes.Date.Value, TimeSpan.FromHours(9));
++            var start = firstRes.Date == null ? default : new DateTimeOffset(firstRes.Date.Value, TimeSpan.FromHours(9));
++            var end = lastRes.Date == null ? default : new DateTimeOffset(lastRes.Date.Value, TimeSpan.FromHours(9));
+ 
+-            return (start.Value, end.Value);
++            return (start, end);
+         }
+     }
+ }
