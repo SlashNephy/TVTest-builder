@@ -110,13 +110,13 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: Build
-        run: msbuild NicoJK/NicoJK.vcxproj -m /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 /p:PlatformToolset=v143
+        run: msbuild Viewer/Viewer.vcxproj -m /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:PlatformToolset=v143
 
       - name: Prepare Artifacts
         shell: powershell
         run: |
           New-Item -Path Artifact/Plugins -ItemType Directory
-          Copy-Item -Path NicoJK/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifact/Plugins/
+          Copy-Item -Path Viewer/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifact/Plugins/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
