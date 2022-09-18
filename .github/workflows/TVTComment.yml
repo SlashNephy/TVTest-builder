@@ -54,6 +54,9 @@ jobs:
           $data=Get-Content TVTComment/ViewModels/SettingsWindowViewModel.cs | % { $_ -replace 'secrets\["Annict:ClientSecret"\]','"${{ secrets.ANNICT_CLIENT_SECRET }}"' }
           $data | Out-File TVTComment/ViewModels/SettingsWindowViewModel.cs
 
+      - name: Install CoreTweet
+        run: nuget sources add -name CoreTweetSource -source CoreTweetNuget
+
       - name: Build (TvtComment.exe)
         run: dotnet publish TVTComment/TVTComment.csproj --configuration Release /p:PublishProfile="TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml" /p:CopyLocalLockFileAssemblies=true
 
