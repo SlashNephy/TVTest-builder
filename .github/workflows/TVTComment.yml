@@ -69,7 +69,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifact/Plugins/TvtComment -ItemType Directory
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifact/Plugins/TvtComment/ -Recurse
+          Copy-Item -Path TVTComment/bin/Release/net6.0-windows/publish/* -Destination Artifact/Plugins/TvtComment/ -Recurse
           Copy-Item -Path TVTComment/Data/* -Destination Artifact/Plugins/TvtComment/ -Recurse
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifact/Plugins/TvtComment/ -Recurse
 
