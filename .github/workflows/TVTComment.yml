@@ -44,11 +44,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 5.0.x
-
-      - name: Build (CoreTweet.dll)
-        working-directory: CoreTweet
-        run: dotnet build build.proj --configuration Release /p:CopyLocalLockFileAssemblies=true
+          dotnet-version: 6.0.x
 
       - name: Replace Annict:ClientId and Annict:ClientSecret
         shell: powershell
@@ -65,7 +61,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifact/Plugins/TvtComment -ItemType Directory
-          Copy-Item -Path TVTComment/bin/Release/net5.0-windows/publish/* -Destination Artifact/Plugins/TvtComment/ -Recurse
+          Copy-Item -Path TVTComment/bin/Release/net6.0-windows/publish/* -Destination Artifact/Plugins/TvtComment/ -Recurse
           Copy-Item -Path TVTComment/Data/* -Destination Artifact/Plugins/TvtComment/ -Recurse
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifact/Plugins/TvtComment/ -Recurse
 
