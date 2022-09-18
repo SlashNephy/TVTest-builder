@@ -3,9 +3,9 @@ index 65d7e3a..5e41a74 100644
 --- a/TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml
 +++ b/TVTComment/Properties/PublishProfiles/ReleaseProfile.pubxml
 @@ -9,9 +9,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
-     <PublishDir>bin\Release\net5.0-windows\publish\</PublishDir>
+     <PublishDir>bin\Release\net6.0-windows\publish\</PublishDir>
      <PublishProtocol>FileSystem</PublishProtocol>
-     <TargetFramework>net5.0-windows</TargetFramework>
+     <TargetFramework>net6.0-windows</TargetFramework>
 -    <SelfContained>true</SelfContained>
 -    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
 -    <PublishSingleFile>True</PublishSingleFile>
