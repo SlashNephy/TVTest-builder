@@ -43,7 +43,6 @@ jobs:
         run: |
           New-Item -Path Artifact/Plugins -ItemType Directory
           Copy-Item -Path src/${{ matrix.platform }}/TVCaption3.tvtp -Destination Artifact/Plugins/
-          Copy-Item -Path TVCaption3.ini -Destination Artifact/Plugins/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
