@@ -63,17 +63,19 @@ jobs:
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
-
-      - name: Setup Windows SDK 17763
-        uses: fbactions/setup-winsdk@v1
         with:
-          winsdk-build-version: 17763
+          msbuild-architecture: x64
+
+      - name: Setup Windows SDK
+        uses: GuillaumeFalourd/setup-windows10-sdk-action@v1.11
+        with:
+          sdk-version: 22621
 
       - name: MSBuild (LibISDB.sln)
         working-directory: src\LibISDB\Projects
         run: msbuild LibISDB.sln /p:Configuration="Release_MD" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
-      - name: MSBuild (TVTest_All.sln)
+      - name: MSBuild (TVTest.sln)
         working-directory: src
         run: msbuild TVTest.sln /p:Configuration="Release_MD" /p:Platform="${{ matrix.platform }}" -m /p:PlatformToolset=v143
 
@@ -85,6 +87,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifact/Plugins -ItemType Directory
+          Copy-Item -Path src/Help/TVTest.chm -Destination Artifact/
           Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest.exe -Destination Artifact/
           Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest_Image.dll -Destination Artifact/
           Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release/*.tvtp -Destination Artifact/Plugins/
