@@ -5,7 +5,7 @@ index ad9c642..cdaa119 100644
 @@ -89,6 +89,8 @@
          </TextBlock>
          <TextBlock>
-             © 2017 silane / © 2020-2022 noriokun4649
+             © 2017 silane / © 2020-2023 noriokun4649
 +            <LineBreak />
 +            Patched by @SlashNephy &lt;spica@starry.blue&gt;
          </TextBlock>
