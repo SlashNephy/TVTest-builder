@@ -44,15 +44,15 @@ jobs:
           repository: DBCTRADO/TVTest
           submodules: recursive
 
-      - name: Update Submodules
-        shell: powershell
-        run: |
-          git submodule update --recursive --remote
+#       - name: Update Submodules
+#         shell: powershell
+#         run: |
+#           git submodule update --recursive --remote
 
-          $path = "src\LibISDB\Thirdparty\fdk-aac\libSBRdec\src\sbr_crc.cpp"
-          if (!(Test-Path $path)) {
-              New-Item $path
-          }
+#           $path = "src\LibISDB\Thirdparty\fdk-aac\libSBRdec\src\sbr_crc.cpp"
+#           if (!(Test-Path $path)) {
+#               New-Item $path
+#           }
 
       - name: Enable Enhanced Instruction Set
         if: matrix.cpu_property != 'NotSet'
