@@ -87,7 +87,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path Artifact/Plugins -ItemType Directory
-          Copy-Item -Path src/Help/TVTest.chm -Destination Artifact/
+          Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest.chm -Destination Artifact/
           Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest.exe -Destination Artifact/
           Copy-Item -Path src/${{ matrix.platform }}/Release_MD/TVTest_Image.dll -Destination Artifact/
           Copy-Item -Path sdk/Samples/${{ matrix.platform }}/Release/*.tvtp -Destination Artifact/Plugins/
