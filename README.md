@@ -2,6 +2,8 @@
 
 TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 構成でビルド、一部 Release|Win32, AVX, AVX2, AVX512 命令セットに対応しています。)
 
+このリポジトリでは、毎日ビルドを行っています。ビルドの成果物は、[リリース](https://github.com/SlashNephy/TVTest-builder/releases) から入手できるほか、[Actions](https://github.com/SlashNephy/TVTest-builder/actions) の実行結果から取得することができます。
+
 このリポジトリでビルドされた成果物の動作には、[Visual C++ 再頒布可能パッケージ (2022)](https://docs.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) のインストールが必要です。(静的リンクされていません。)
 
 ## 対象リポジトリ
@@ -27,4 +29,4 @@ TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Re
 | リポジトリ | 説明 | Workflow |
 |---|---|---|
 | [SlashNephy/TvTestRPC](https://github.com/SlashNephy/TvTestRPC) | Discord RPC プラグイン | [![TvTestRPC](https://github.com/SlashNephy/TvTestRPC/actions/workflows/latest.yml/badge.svg)](https://github.com/SlashNephy/TvTestRPC/actions/workflows/latest.yml) |
-| [SlashNephy/TVTestAnnictRecorder](https://github.com/SlashNephy/TVTestAnnictRecorder) | Annict 記録プラグイン | [![TVTestAnnictRecorder](https://github.com/SlashNephy/TVTestAnnictRecorder/actions/workflows/latest.yml/badge.svg)](https://github.com/SlashNephy/TVTestAnnictRecorder/actions/workflows/latest.yml) |
+| [SlashNephy/TVTestAnnictRecorder](https://github.com/SlashNephy/TVTestAnnictRecorder) | Annict 記録プラグイン | [![TVTestAnnictRecorder](https://github.com/SlashNephy/TVTestAnnictRecorder/actions/workflows/build-cpp.yml/badge.svg)](https://github.com/SlashNephy/TVTestAnnictRecorder/actions/workflows/build-cpp.yml) |
