@@ -12,9 +12,6 @@ on:
 
 permissions: {}
 
-concurrency:
-  group: 'deploy'
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -32,13 +29,16 @@ jobs:
 
       - name: Prepare Commit Message
         id: message
-        run: echo "::set-output name=value::🆙 `date '+%Y-%m-%d'` (${ARTIFACT_NAME}, ${COMMIT_HASH:0:7})"
+        run: echo "::set-output name=commit_message::🆙 `date '+%Y-%m-%d'` (${ARTIFACT_NAME}, ${COMMIT_HASH:0:7})"
         env:
           TZ: 'Asia/Tokyo'
           ARTIFACT_NAME: '${{ inputs.artifact-name }}'
           COMMIT_HASH: '${{ github.sha }}'
 
+      - name: Pull
+        run: git pull
+
       - name: Push to Target Repository
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: '${{ steps.message.outputs.value }}'
+          commit_message: '${{ steps.message.outputs.commit_message }}'
