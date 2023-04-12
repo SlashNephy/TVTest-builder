@@ -38,6 +38,7 @@ jobs:
         run: |
           foreach ($item in Get-ChildItem TVTest-builder\Patch\TvtComment.*.patch)
           {
+              Write-Output $item.FullName
               git apply $item.FullName
           }
 
