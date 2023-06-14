@@ -1,5 +1,5 @@
 diff --git a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
-index 53e6b24..e9ecc3e 100644
+index 53e6b24..7ea937c 100644
 --- a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
 +++ b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
 @@ -1,4 +1,5 @@
@@ -9,7 +9,15 @@ index 53e6b24..e9ecc3e 100644
  using System.Collections.Generic;
  using System.Drawing;
  using System.IO;
-@@ -152,61 +153,56 @@ namespace TVTComment.Model.ChatCollectService
+@@ -61,7 +62,6 @@ namespace TVTComment.Model.ChatCollectService
+                 }
+                 catch (AggregateException e)
+                 {
+-                    ResCollectLoopTaskExceptionHandler(e);
+                     return Enumerable.Empty<Chat>();
+                 }
+             }
+@@ -152,61 +152,56 @@ namespace TVTComment.Model.ChatCollectService
  
          private static async Task<Nichan.Thread> GetThread(string server, string board, string thread, CancellationToken cancellationToken)
          {
@@ -105,7 +113,7 @@ index 53e6b24..e9ecc3e 100644
          }
  
          /// <summary>
-@@ -239,7 +235,13 @@ namespace TVTComment.Model.ChatCollectService
+@@ -239,7 +234,13 @@ namespace TVTComment.Model.ChatCollectService
              ExceptionDispatchInfo.Capture(e).Throw(); // スタックトレースを保って再スロー
          }
  
