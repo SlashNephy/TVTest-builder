@@ -1,5 +1,5 @@
 diff --git a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
-index 53e6b24..7ea937c 100644
+index a9096a2..449d812 100644
 --- a/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
 +++ b/TVTComment/Model/ChatCollectService/PastNichanChatCollectService.cs
 @@ -1,4 +1,5 @@
@@ -82,7 +82,7 @@ index 53e6b24..7ea937c 100644
              }
  
              // 2ch.scがダメだった場合、5ch.netのスクレイピング
-             string gochanUrl = $"https://{server}.5ch.net/test/read.cgi/{board}/{thread}/";
+             string gochanUrl = $"https://{server}.5ch.net/test/read.cgi/c/{board}/{thread}/";
 -            string response;
  
              System.Diagnostics.Debug.WriteLine($"[PastNichanChatCollectService] HTTP Get {gochanUrl}");
