@@ -1,10 +1,20 @@
 # TVTest-builder
 
-TVTest 関連のプロジェクトを GitHub Actions でビルドします。(Release|x64 構成でビルド、一部 Release|Win32, AVX, AVX2, AVX512 命令セットに対応しています。)
+TVTest 関連のプロジェクトを GitHub Actions 上でビルドします。
 
-このリポジトリでは、毎日ビルドを行っています。ビルドの成果物は、[リリース](https://github.com/SlashNephy/TVTest-builder/releases) から入手できるほか、[Actions](https://github.com/SlashNephy/TVTest-builder/actions) の実行結果から取得することができます。
+## ビルド詳細
 
-このリポジトリでビルドされた成果物の動作には、[Visual C++ 再頒布可能パッケージ (2022)](https://docs.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) のインストールが必要です。(静的リンクされていません。)
+- それぞれのソースリポジトリの `master` / `main` ブランチまたはこれに準ずるブランチをビルドします。
+- `Release|x64` 構成またはこれに準ずる構成でビルドを行います。
+- 一部のプロジェクトでは `Release|Win32` 構成でもビルドを行います。
+- 一部のプロジェクトでは、拡張 CPU 命令セット (AVX, AVX2, AVX512) で最適化したビルドを行います。
+- 一部のプロジェクトでは、パッチを当ててビルドを行います。パッチは [こちら](https://github.com/SlashNephy/TVTest-builder/tree/master/Patch) から確認できます。
+- ビルドの構成やプロジェクトを追加したい場合は、Issue か PR でお知らせください!
+
+## 成果物
+
+- このリポジトリでは、毎日ビルドを行っています。ビルドの成果物は、[リリース](https://github.com/SlashNephy/TVTest-builder/releases) から入手できるほか、[Actions](https://github.com/SlashNephy/TVTest-builder/actions) の実行結果 (ログインが必要) から取得することができます。
+- このリポジトリでビルドされた成果物の動作には、[Visual C++ 再頒布可能パッケージ (2022)](https://docs.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) のインストールが必要です。(静的リンクされていません。)
 
 ## 対象リポジトリ
 
