@@ -54,6 +54,19 @@ jobs:
 #               New-Item $path
 #           }
 
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          path: TVTest-builder
+
+      - name: Apply Patches
+        shell: powershell
+        run: |
+          foreach ($item in Get-ChildItem TVTest-builder\Patch\TVTest.*.patch)
+          {
+              git apply $item.FullName
+          }
+
       - name: Enable Enhanced Instruction Set
         if: matrix.cpu_property != 'NotSet'
         shell: powershell
