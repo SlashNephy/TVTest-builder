@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Target Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'StarryBlueSky/TVTest-distribution'
           token: '${{ secrets.GH_PAT }}'
