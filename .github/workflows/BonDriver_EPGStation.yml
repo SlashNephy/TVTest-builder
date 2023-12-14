@@ -48,7 +48,7 @@ jobs:
           Copy-Item -Path BonDriver_EPGStation.yml -Destination Artifact/
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: BonDriver_EPGStation_${{ matrix.platform }}
           if-no-files-found: error

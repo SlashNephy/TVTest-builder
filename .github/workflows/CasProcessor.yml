@@ -51,7 +51,7 @@ jobs:
           Copy-Item -Path ${{ matrix.platform }}/Release/CasProcessor.tvtp -Destination Artifact/Plugins/
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: CasProcessor_${{ matrix.platform }}
           if-no-files-found: error
