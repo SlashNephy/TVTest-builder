@@ -75,7 +75,7 @@ jobs:
           $data | Out-File src/TVTest.vcxproj
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+        uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
 
