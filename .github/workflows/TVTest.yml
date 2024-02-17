@@ -115,7 +115,7 @@ jobs:
         run: Copy-Item -Path data/* -Destination Artifact/ -Recurse
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: TVTest_${{ matrix.platform }}_${{ matrix.cpu }}
           if-no-files-found: error

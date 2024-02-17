@@ -81,7 +81,7 @@ jobs:
           Copy-Item -Path TvtAudioStretchFilter_src/${{ matrix.platform }}/TvtAudioStretchFilter.ax -Destination Artifact/Plugins/
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: TvtPlay_${{ matrix.platform }}
           if-no-files-found: error

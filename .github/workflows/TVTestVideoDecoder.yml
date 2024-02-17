@@ -45,7 +45,7 @@ jobs:
           Copy-Item -Path src/${{ matrix.platform }}/Release/TVTestVideoDecoder.ax -Destination Artifact/
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: TVTestVideoDecoder_${{ matrix.platform }}
           path: Artifact/

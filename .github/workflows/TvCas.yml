@@ -53,7 +53,7 @@ jobs:
           Copy-Item -Path ${{ matrix.platform }}/ReleaseSPHD/SPHD.tvcas -Destination Artifact/
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: TvCas_${{ matrix.platform }}
           if-no-files-found: error
