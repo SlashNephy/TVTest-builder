@@ -32,7 +32,7 @@ jobs:
           submodules: recursive
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Generate CMake
         run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -A ${{ matrix.platform }} .
