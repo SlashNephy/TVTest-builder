@@ -139,7 +139,7 @@ jobs:
 
       - name: Set Job Outputs
         id: output
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             core.setOutput("artifact", "TvtComment_tvtp_${{ matrix.platform }}")
