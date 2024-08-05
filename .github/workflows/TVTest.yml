@@ -80,7 +80,7 @@ jobs:
           msbuild-architecture: x64
 
       - name: Setup Windows SDK
-        uses: GuillaumeFalourd/setup-windows10-sdk-action@v2.1
+        uses: GuillaumeFalourd/setup-windows10-sdk-action@v2.2
         with:
           sdk-version: 22621
 
