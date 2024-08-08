@@ -19,8 +19,8 @@ jobs:
           repository: noriokun4649/TVTComment
           submodules: recursive
 
-      - name: Update Submodules
-        run: git submodule update --recursive --remote
+      # - name: Update Submodules
+      #   run: git submodule update --recursive --remote
 
       - name: Checkout Repository (TVTComment-txt)
         uses: actions/checkout@v4
