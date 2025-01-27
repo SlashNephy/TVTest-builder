@@ -34,11 +34,6 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Setup Windows SDK 17763
-        uses: fbactions/setup-winsdk@v1
-        with:
-          winsdk-build-version: 17763
-
       - name: MSBuild (TvCas.sln, B25.tvcas)
         run: msbuild TvCas.sln /p:Configuration="Release" /p:Platform="${{ matrix.platform }}" /p:CodePage=932 -m /p:PlatformToolset=v143
 
