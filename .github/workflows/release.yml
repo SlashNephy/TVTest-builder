@@ -25,7 +25,7 @@ jobs:
         run: zip -r ${{ inputs.artifact-name }}.zip ${{ inputs.artifact-name }}/
 
       - name: Upload Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8 # v2.0.9
         with:
           files: '${{ inputs.artifact-name }}.zip'
         env:
