@@ -168,7 +168,7 @@ jobs:
           path: Artifacts/
 
       - name: Upload Release
-        uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8 # v2.0.9
+        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
         with:
           files: Artifacts/*.zip
         env:
