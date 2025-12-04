@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout Repository (TVTComment)
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: noriokun4649/TVTComment
           submodules: recursive
@@ -23,13 +23,13 @@ jobs:
       #   run: git submodule update --recursive --remote
 
       - name: Checkout Repository (TVTComment-txt)
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: SlashNephy/TVTComment-txt
           path: TVTComment-txt
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           path: TVTest-builder
 
@@ -74,7 +74,7 @@ jobs:
           Copy-Item -Path TVTComment-txt/*.txt -Destination Artifact/Plugins/TvtComment/ -Recurse
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: TvtComment_exe
           if-no-files-found: error
@@ -106,13 +106,13 @@ jobs:
 
     steps:
       - name: Checkout Repository (TVTComment)
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: noriokun4649/TVTComment
           submodules: recursive
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce # v2
 
       - name: Build
         run: |
@@ -130,7 +130,7 @@ jobs:
           Copy-Item -Path Viewer/${{ matrix.platform }}/Release/TvtComment.tvtp -Destination Artifact/Plugins/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: TvtComment_tvtp_${{ matrix.platform }}
           if-no-files-found: error
@@ -138,7 +138,7 @@ jobs:
 
       - name: Set Job Outputs
         id: output
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
             core.setOutput("artifact", "TvtComment_tvtp_${{ matrix.platform }}")
