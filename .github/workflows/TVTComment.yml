@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout Repository (TVTComment)
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           repository: noriokun4649/TVTComment
           submodules: recursive
@@ -23,13 +23,13 @@ jobs:
       #   run: git submodule update --recursive --remote
 
       - name: Checkout Repository (TVTComment-txt)
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           repository: SlashNephy/TVTComment-txt
           path: TVTComment-txt
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           path: TVTest-builder
 
@@ -106,7 +106,7 @@ jobs:
 
     steps:
       - name: Checkout Repository (TVTComment)
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           repository: noriokun4649/TVTComment
           submodules: recursive
