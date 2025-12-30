@@ -45,7 +45,7 @@ jobs:
           Copy-Item -Path src/${{ matrix.platform }}/TVCaption3.tvtp -Destination Artifact/Plugins/
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: TVCaption3_${{ matrix.platform }}
           if-no-files-found: error
